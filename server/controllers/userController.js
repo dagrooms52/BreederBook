@@ -6,12 +6,12 @@ const shortid = require('shortid');
 // Just scaffolding, remove when we get SSO
 class UserController {
 
-    constructor() {
-        this.users = {}
+    constructor(userOrchestrator) {
+        this.userOrchestrator = userOrchestrator;
     }
 
     getUser(userId, reply) {
-        var userResult = this.users[userId];
+        var userResult = this.userOrchestrator.getUser(userId);
 
         if(userResult == null){
             reply("Not found").code(404);
@@ -25,19 +25,14 @@ class UserController {
         
         var userData = JSON.parse(userJson);
         
-        var userId = shortid.generate().toString();
+        var resultUser = this.userOrchestrator.createUser(userData);
 
-        userData.id = userId;
-
-        if (this.users[userId] != null) {
+        if(resultUser == null) {
             // If generated ID was not unique, rather fail than overwrite data
             reply("Internal server error.").code(500);
-            return;
         }
 
-        this.users[userId] = userData;
-
-        reply(JSON.stringify(userData));
+        reply(JSON.stringify(resultUser));
     }
 
     setupRoutes(server) {

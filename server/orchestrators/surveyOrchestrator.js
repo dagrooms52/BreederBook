@@ -28,6 +28,10 @@ class SurveyOrchestrator {
 
         var survey = surveyData;
 
+        if(referencedBreeder == null || referencedUser == null) {
+            return 
+        }
+
         // Create ID
         var id = shortid.generate().toString();
 

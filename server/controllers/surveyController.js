@@ -10,7 +10,7 @@ const schemaFile = path.join(__dirname, 'jsonSchema/survey.json');
 
 class SurveyController {
 
-    constructor(surveyOrchestrator){
+    constructor(surveyOrchestrator, breederOrchestrator, userOrchestrator){
         this.orchestrator = surveyOrchestrator;
         this.validator = new Validator();
         this.surveySchema = JSON.parse(fs.readFileSync(schemaFile, 'utf8'));
@@ -30,6 +30,15 @@ class SurveyController {
     // TODO: Make sure the breederId and userId exist in the system
     createSurvey(surveyJson, reply) {
         
+        // Validate that the referenced resources exist
+        var referencedBreeder = this.breederOrchestrator.getBreeder(survey.breederId);
+        var referencedUser = this.userOrchestrator.getUser(surveyData.userId);
+
+        if (referencedBreeder == null || referencedUser == null) {
+            reply("Bad request").code(400);
+            return;
+        }
+
         var surveyData = JSON.parse(surveyJson);
 
         var validationResult = this.validator.validate(surveyData, this.surveySchema);

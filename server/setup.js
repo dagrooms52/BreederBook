@@ -6,6 +6,7 @@ const SurveyController = require('./controllers/surveyController');
 const UserController = require('./controllers/userController');
 const BreederOrchestrator = require('./orchestrators/breederOrchestrator');
 const SurveyOrchestrator = require('./orchestrators/surveyOrchestrator');
+const UserOrchestrator = require('./orchestrators/userOrchestrator');
 
 // A really bad fake IoC container
 class Setup {
@@ -21,14 +22,20 @@ class Setup {
     }
 
     setupControllers(server) {
-        this.breederController = new BreederController(new BreederOrchestrator());
+        
+        this.breederOrchestrator = new BreederOrchestrator();
+        this.breederController = new BreederController(this.breederOrchestrator);
         this.breederController.setupRoutes(server);
 
-        this.surveyController = new SurveyController(new SurveyOrchestrator());
+        this.userOrchestrator = new UserOrchestrator();
+        this.userController = new UserController(this.userOrchestrator);
+        this.userController.setupRoutes(server);
+
+        this.surveyOrchestrator = new SurveyOrchestrator(this.breederOrchestrator, this.userOrchestrator);
+        this.surveyController = new SurveyController(this.surveyOrchestrator);
         this.surveyController.setupRoutes(server);
 
-        this.userController = new UserController();
-        this.userController.setupRoutes(server);
+        
     }
 
 }
