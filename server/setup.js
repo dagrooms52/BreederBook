@@ -31,8 +31,8 @@ class Setup {
         this.userController = new UserController(this.userOrchestrator);
         this.userController.setupRoutes(server);
 
-        this.surveyOrchestrator = new SurveyOrchestrator(this.breederOrchestrator, this.userOrchestrator);
-        this.surveyController = new SurveyController(this.surveyOrchestrator);
+        this.surveyOrchestrator = new SurveyOrchestrator();
+        this.surveyController = new SurveyController(this.surveyOrchestrator, this.breederOrchestrator, this.userOrchestrator);
         this.surveyController.setupRoutes(server);
 
         
