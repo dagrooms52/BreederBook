@@ -40,17 +40,37 @@ class BreederController {
         
         var breederResult = this.orchestrator.createBreeder(breederData);
 
+        if(breederResult == null) {
+            // If generated ID was not unique, rather fail than overwrite data
+            reply("Internal server error.").code(500);
+        }
+
         reply(JSON.stringify(breederResult));
     }
 
     updateBreeder(breederId, breederJson, reply) {
-        // TODO: validate payload
-
-        // var breederSchema = request.payload ?
-
         var breederData = JSON.parse(breederJson);
 
-        reply(this.orchestrator.updateBreeder(breederId, breederJson));   
+        if(breederData.id != null && breederData.id != breederId){
+            reply("Bad request. Breeder ID does not match route's breeder ID.").code(400);
+            return;
+        }
+
+        var validationResult = this.validator.validate(breederData, this.breederSchema);
+        if (!validationResult.valid) {
+            console.log(validationResult.errors)
+            reply("Bad request").code(400);
+            return;
+        }
+
+        var updateResult =  this.orchestrator.updateBreeder(breederId, breederData);
+
+        if(updateResult) {
+            reply().code(200);
+        } 
+        else {
+            reply("Not found").code(404);
+        }
     }
 
     deleteBreeder(breederId, reply) {
@@ -82,7 +102,7 @@ class BreederController {
 
         // PATCH /breeders/{breederId}
         server.route({
-            method: 'PATCH',
+            method: 'PUT',
             path: baseRoute + '/{breederId}',
             handler: function(request, reply){
                 var breederId = encodeURIComponent(request.params.breederId);

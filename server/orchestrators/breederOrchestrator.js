@@ -23,6 +23,7 @@ class BreederOrchestrator {
         return null;
     }
 
+    // Returns: Breeder (null if failed)
     createBreeder(breederData) {
 
         var breeder = breederData;
@@ -33,13 +34,28 @@ class BreederOrchestrator {
         breeder.id = id
 
         // Add to dictionary - this will become push to database
+        if(this.breeders[id] != null) {
+            // Would overwrite data - this is a server error, non-unique ID
+            return null;
+        }
+
         this.breeders[id] = breeder;
 
         return breeder;
     }
 
-    updateBreeder(breederJson) {
-        return;
+    // Returns: bool (success)
+    updateBreeder(breederId, breederData) {
+        
+        // This is checked in the controller but enforced here
+        breederData.id = breederId;
+
+        if(this.breeders[breederId] == null) {
+            return false;
+        }
+
+        this.breeders[breederId] = breederData;
+        return true;
     }
 
     deleteBreeder(breederId) {
