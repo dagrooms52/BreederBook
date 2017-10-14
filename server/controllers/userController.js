@@ -17,7 +17,7 @@ class UserController {
             reply("Not found").code(404);
         }
         else {
-            reply(userResult);
+            reply(JSON.stringify(userResult));
         }
     }
     

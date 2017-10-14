@@ -23,7 +23,7 @@ class SurveyController {
             reply("Not found").code(404);
         }
         else {
-            reply(surveyResult);
+            reply(JSON.stringify(surveyResult));
         }        
     }
     
