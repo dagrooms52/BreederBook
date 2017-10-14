@@ -3,11 +3,17 @@
 const Hapi = require('hapi');
 const BreederOrchestrator = require('../orchestrators/breederOrchestrator')
 const baseRoute = "/breeders"
+const Validator = require('jsonschema').Validator;
+const fs = require('fs');
+const path = require('path');
+const schemaFile = path.join(__dirname, 'jsonSchema/breeder.json');
 
 class BreederController {
 
     constructor(server, breederOrchestrator){
         this.orchestrator = breederOrchestrator;
+        this.validator = new Validator();
+        this.breederSchema = JSON.parse(fs.readFileSync(schemaFile, 'utf8'));
     }
 
     getBreeder(breederId, reply) {
@@ -22,12 +28,19 @@ class BreederController {
     }
     
     createBreeder(breederJson, reply) {
-        // TODO: validate payload
-
+        
         var breederData = JSON.parse(breederJson);
+
+        var validationResult = this.validator.validate(breederData, this.breederSchema);
+        if (!validationResult.valid) {
+            console.log(validationResult.errors)
+            reply("Bad request").code(400);
+            return;
+        }
+        
         var breederResult = this.orchestrator.createBreeder(breederData);
 
-        reply(JSON.stringify(breederResult))
+        reply(JSON.stringify(breederResult));
     }
 
     updateBreeder(breederId, breederJson, reply) {

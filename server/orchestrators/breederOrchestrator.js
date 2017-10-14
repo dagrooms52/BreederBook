@@ -1,6 +1,6 @@
 'use strict';
-var shortid = require('shortid');
 const Breeder = require('../schemas/breeder/breeder')
+const shortid = require('shortid');
 
 class BreederOrchestrator {
 
