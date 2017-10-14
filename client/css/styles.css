@@ -5,6 +5,42 @@ nav.header, main, footer {
 
 @media only screen and (max-width : 992px) {
   nav.header, main, footer {
-    padding-left: 20;
+    padding-left: 0;
   }
+}
+
+body {
+    font-family:sans-serif;
+}
+.toggle {
+    margin:px;
+    background-color:#EFEFEF;
+    border:1px solid #D0D0D0;
+    overflow:auto;
+    float:left;
+}
+
+.toggle label {
+    float:left;
+    width: 75px;
+    height: 30px;
+}
+
+.toggle label span {
+    text-align:center;
+    padding:3px 0px;
+    display:block;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.toggle label input {
+    position:absolute;
+    top:-20px;
+}
+
+.toggle .input-checked /*, .bounds input:checked + span works for firefox and ie9 but breaks js for ie8(ONLY) */ {
+    height: 30px;
+    background-color:#00897b;
+    color: white;
 }

@@ -9,63 +9,173 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
 
         <!-- Include Materialize Library -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     </head>
   
-    <body ng-app="BreederRate">
+    <body ng-app="BreederRate" class = "teal lighten-1">
         
-        <ul id="slide-out" class="side-nav fixed">
-            <img style = "height: 125px; padding-top: 15px; padding-bottom: 15px; padding-left: 25%" src = "images/logo.ico">
+        <ul id="slide-out" class="side-nav fixed" style = "width: auto">
+            <img style = "height: 175px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px; padding-right: 20px" src = "images/logo.ico">
             <li><a href="index.html">About</a></li>
-            <li class="active"><a href="#!">Find a Breeder</a></li>
-            <li><a href="#!">Donate</a></li>
+            <li class="active"><a href="Search.html">Find a Breeder</a></li>
+            <li><a>Donate</a></li>
         </ul>
         <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 
+        <main>
 
-        
-          <div class="row">
-            <form class="col s12">
-              <div class="row">
-                <div class="input-field col s6">
-                  <input id="first_name" type="text" class="validate">
-                  <label class = "active" for="first_name">First Name</label>
-                </div>
-                <div class="input-field col s6">
-                  <input id="last_name" type="text" class="validate">
-                  <label class = "active" for="last_name">Last Name</label>
-                </div>
-              </div>
-              <div class="row">
-              </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <input id="country" type="text" class="validate">
-                  <label class = "active" for="country">Country</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <input id="state" type="text" class="validate">
-                  <label class = "active" for="state">State</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s12">
-                  This is an inline input field:
-                  <div class="input-field inline">
-                    <input id="email" type="email" class="validate">
-                    <label class = "active" for="email" data-error="wrong" data-success="right">Email</label>
+        <div class="row" style = "padding-left: 5%; padding-right: 5%">
+            <div class="col s12 card card-content black-text  z-depth-4">
+              <div class="row" style = "padding-top: 30px;">
+                <form class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6">
+                      <input id="first_name" type="text" class="validate">
+                      <label class = "active" for="first_name">First Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input id="last_name" type="text" class="validate">
+                      <label class = "active" for="last_name">Last Name</label>
+                    </div>
                   </div>
-                </div>
+                  <div class="row">
+                  </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                      <input id="city" type="text" class="validate">
+                      <label class = "active" for="state">City</label>
+                    </div>
+                  </div>
+                    <div class="row">
+                    <div class="input-field col s12">
+                      <input id="state" type="text" class="validate">
+                      <label class = "active" for="state">State</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="country" type="text" class="validate">
+                      <label class = "active" for="country">Country</label>
+                    </div>
+                  </div>
+                    <div style = "padding-left: 40px">
+                  <div class="row">
+                    <div class="col s8 right-align">
+                      <p>Was the pet younger than 8 weeks old?</p>
+                    </div>
+                      <div class="col s4 valign-wrapper">
+                          <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>Yes</span></label>    
+                        </div>
+                        <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>No</span></label>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="row">
+                    <div class="col s8 right-align">
+                      <p>Were you able to see the parents?</p>
+                    </div>
+                      <div class="col s4 valign-wrapper">
+                          <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>Yes</span></label>    
+                        </div>
+                        <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>No</span></label>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="row">
+                    <div class="col s8 right-align">
+                      <p>Did you meet at the breeders home?</p>
+                    </div>
+                      <div class="col s4 valign-wrapper">
+                          <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>Yes</span></label>    
+                        </div>
+                        <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>No</span></label>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="row">
+                    <div class="col s8 right-align">
+                      <p>Were the pets kept in clean and safe living conditions?</p>
+                    </div>
+                      <div class="col s4 valign-wrapper">
+                          <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>Yes</span></label>    
+                        </div>
+                        <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>No</span></label>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="row">
+                    <div class="col s8 right-align">
+                      <p>Did your pet have any health concerns?</p>
+                    </div>
+                      <div class="col s4 valign-wrapper">
+                          <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>Yes</span></label>    
+                        </div>
+                        <div class="toggle">
+                            <label><input type="radio" name="toggle"><span>No</span></label>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="row">
+                    <div class="col s8 right-align">
+                      <p>Please select your dog's breed.</p>
+                    </div>
+                      <div class="col s4 valign-wrapper">
+                          <div class="input-field col s12">
+                            <label>Browser Select</label>
+                              <select class="browser-default">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="1">Option 1</option>
+                                <option value="2">Option 2</option>
+                                <option value="3">Option 3</option>
+                              </select>
+                          </div>
+                    </div>
+                        </div>
+                  </div>
+                    
+                      <div class="row">
+                        <form class="col s12">
+                          <div class="row" style = "padding-top: 20px">
+                            <div class="input-field col s12">
+                              <textarea id="comments" class="materialize-textarea"></textarea>
+                              <label for="textarea1">Additional Comments</label>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    <div class = "row">
+                        <star-rating-comp [starType]="'svg'" [rating]="2.63"></star-rating-comp>
+                    </div>
+                </form>
+                  
+                  <div class = "row">
+                    <div class = "col s12 center-align" style="padding-top: 30px;" >                        
+                        <a href = "SearchResults.html" class="waves-effect waves-light btn teal lighten-1" style="width: 50%">Submit</a>
+                    </div>
+                  </div>
               </div>
-            </form>
+            </div>
           </div>
-        
-        
+            
+            <script>
+    $(document).ready(function() {
+      $('select').material_select();
+    });
+</script>
+            
+        </main>
     </body>
 
     <!-- Modules -->
@@ -77,7 +187,8 @@
     <!-- Services (CHANGE TO DANS) -->
     <script src="js/services/forecast.js"></script>
 
-    <!-- Directives -->
+    <!-- JS Scripts -->
+    <script src="js/scripts.js"></script>
 
 
 </html>
