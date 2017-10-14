@@ -2,7 +2,7 @@
 
 class Breeder {
 
-    constructor(internalId, ) {
+    constructor(internalId) {
 
     }
 

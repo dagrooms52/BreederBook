@@ -2,6 +2,8 @@
 
 const Hapi = require('hapi');
 const Setup = require('./setup')
+const BreederController = require('./controllers/breederController');
+const BreederOrchestrator = require('./orchestrators/breederOrchestrator');
 
 // Start preparing a server
 const server = new Hapi.Server();
@@ -17,7 +19,7 @@ server.route({
 });
 
 // Call the "IoC" to set up all the routes on the server
-var setup = new Setup(server)
+var setup = new Setup(server);
 
 // Start the server
 server.start((err) => {

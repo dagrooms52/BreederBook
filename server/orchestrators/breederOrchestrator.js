@@ -20,13 +20,19 @@ class BreederOrchestrator {
         return null;
     }
 
-    createBreeder(breederJson) {        
-        var breeder = JSON.parse(breederJson);
+    createBreeder(breederData) {
+
+        var breeder = breederData;
 
         // Create ID
         var id = shortid.generate();
 
-        this.breeders.push(id, breeder);
+        breeder.id = id
+
+        // Add to dictionary - this will become push to database
+        this.breeders.id = breeder;
+
+        return breeder;
     }
 
     updateBreeder(breederJson) {
