@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#", 
+  "definitions": {}, 
+  "id": "http://example.com/example.json", 
+  "properties": {
+    "breederId": {
+      "description": "ID of the breeder.",
+      "id": "http://example.com/example.json/properties/breederId", 
+      "title": "The breederid schema.", 
+      "type": "string"
+    }, 
+    "id": {
+      "description": "Internal ID of the survey.",
+      "id": "http://example.com/example.json/properties/id", 
+      "title": "The id schema.", 
+      "type": "string"
+    }, 
+    "questions": {
+      "id": "http://example.com/example.json/properties/questions", 
+      "items": [
+        {
+          "id": "http://example.com/example.json/properties/questions/items/0", 
+          "properties": {
+            "answer": {
+              "description": "Answer to the survey question",
+              "id": "http://example.com/example.json/properties/questions/items/0/properties/answer", 
+              "title": "The answer schema.", 
+              "type": "boolean"
+            }, 
+            "question": {
+              "description": "The question of the survey.",
+              "id": "http://example.com/example.json/properties/questions/items/0/properties/question", 
+              "title": "The question schema.", 
+              "type": "string",
+              "enum": [
+                "Was the dog less than eight (8) weeks old?",
+                "Did you see the parents of the dog?",
+                "Did you pick up the dog from the seller's house?",
+                "Were all animals kept in clean and safe conditions?",
+                "Did you discover any health problems after receiving the dog?"
+              ]
+            }
+          }, 
+          "type": "object"
+        }
+      ], 
+      "type": "array",
+      "minItems" : 5,
+      "maxItems": 5
+    }, 
+    "userId": {
+      "description": "The ID of the survey submitting user.",
+      "id": "http://example.com/example.json/properties/userId", 
+      "title": "The userid schema.", 
+      "type": "string"
+    }
+  }, 
+  "type": "object",
+  "required": [
+    "breederId", "questions", "userId"
+  ]
+}

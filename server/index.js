@@ -4,10 +4,21 @@ const Hapi = require('hapi');
 const Setup = require('./setup')
 const BreederController = require('./controllers/breederController');
 const BreederOrchestrator = require('./orchestrators/breederOrchestrator');
+const Cors = require('hapi-cors');
 
 // Start preparing a server
 const server = new Hapi.Server();
-server.connection({ port: 3000, host: 'localhost' });
+server.connection(
+    { 
+        port: 3000, 
+        host: 'localhost'/*, this might work?
+        routes: {
+            cors: true
+        }*/
+    });
+
+
+
 
 // TODO: Remove or make an intro page for the API
 server.route({
@@ -22,10 +33,15 @@ server.route({
 var setup = new Setup(server);
 
 // Start the server
-server.start((err) => {
-
-    if (err) {
-        throw err;
+server.register({
+    register: Cors,
+    options: {
+        origins: ['http://localhost:3000']
     }
-    console.log(`Server running at: ${server.info.uri}`);
+}, function(err){
+    server.start(function(err){
+        if(err) throw err;
+
+		console.log(server.info.uri);
+	});
 });
