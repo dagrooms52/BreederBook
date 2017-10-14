@@ -1,0 +1,10 @@
+nav.header, main, footer {
+  padding-left: 200px;
+}
+
+
+@media only screen and (max-width : 992px) {
+  nav.header, main, footer {
+    padding-left: 20;
+  }
+}
