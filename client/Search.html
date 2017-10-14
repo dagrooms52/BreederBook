@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+    <head>
+    
+        <!-- Include css Stylesheet -->
+        <link rel="stylesheet" href="css/styles.css">
+
+        <!-- Include the AngularJS library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+
+        <!-- Include Materialize Library -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    </head>
+  
+    <body>
+        
+        <ul id="slide-out" class="side-nav fixed" style = "width: auto">
+            <img style = "height: 125px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px" src = "images/logo.ico">
+            <li><a href="index.html">About</a></li>
+            <li class="active"><a href="#!">Find a Breeder</a></li>
+            <li><a href="#!">Donate</a></li>
+        </ul>
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+
+        <main>
+              
+            
+            <div class="row" style = "padding-top: 10%">
+                <div class="col s12"><h2 class = "center-align">Find a Breeder</h2></div>
+                <div class="col s6  offset-s3">
+                    <div class="nav-wrapper">
+                      <form>
+                        <div class="input-field teal lighten-1" style = "height: 40px">
+                          <input placeholder="Name" id="search" type="search" required>
+                          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                          <i class="material-icons">close</i>
+                        </div>
+                      </form>
+                    </div>
+                    
+                    <div class="nav-wrapper">
+                      <form>
+                        <div class="input-field teal lighten-1" style = "height: 40px">
+                          <input placeholder="Location" id="search" type="search" required>
+                          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                          <i class="material-icons">close</i>
+                        </div>
+                      </form>
+                    </div>
+                    
+                    <div class="nav-wrapper">
+                      <form>
+                        <div class="input-field teal lighten-1" style = "height: 40px">
+                          <input placeholder="Breed" id="search" type="search" required>
+                          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                          <i class="material-icons">close</i>
+                        </div>
+                      </form>
+                    </div>
+                    
+                    <div style="padding-top: 30px">
+                        <a href = "SearchResults.html" class="waves-effect waves-light btn teal lighten-1" style="width: 100%">Search</a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+              
+        </main>
+
+    </body>
+
+    <!-- Modules -->
+    <script src="js/app.js"></script>
+
+    <!-- Controllers -->
+    <script src="js/controllers/MainController.js"></script>
+
+    <!-- Services (CHANGE TO DANS) -->
+    <script src="js/services/forecast.js"></script>
+
+    <!-- Directives -->
+
+
+</html>
