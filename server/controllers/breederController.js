@@ -74,7 +74,8 @@ class BreederController {
     }
 
     deleteBreeder(breederId, reply) {
-        reply(this.orchestrator.deleteBreeder(breederId));
+        this.orchestrator.deleteBreeder(breederId)
+        reply().code(200);
     }
 
     setupRoutes(server) {

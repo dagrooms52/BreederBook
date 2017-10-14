@@ -58,6 +58,7 @@ class BreederOrchestrator {
         return true;
     }
 
+    // TODO: Check if id exists & return false / 404
     deleteBreeder(breederId) {
         delete this.breeders[breederId]
     }

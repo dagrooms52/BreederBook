@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#", 
+    "id": "http://example.com/breeder.json", 
+    "properties": {
+      "id": {
+        "description": "An explanation about the purpose of this instance.", 
+        "examples": [
+        ], 
+        "id": "/properties/id", 
+        "title": "The id schema.", 
+        "type": "string"
+      }
+    }, 
+    "required": [],
+    "type": "object"
+  }
