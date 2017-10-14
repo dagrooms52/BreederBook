@@ -1,8 +1,10 @@
 'use strict';
 
 const Hapi = require('hapi');
-const SurveyOrchestrator = require('../orchestrators/SurveyOrchestrator')
-const baseRoute = "/surveys"
+const SurveyOrchestrator = require('../orchestrators/SurveyOrchestrator');
+const BreederOrchestrator = require('../orchestrators/breederOrchestrator');
+const UserOrchestrator = require('../orchestrators/userOrchestrator');
+const baseRoute = "/surveys";
 const Validator = require('jsonschema').Validator;
 const fs = require('fs');
 const path = require('path');
