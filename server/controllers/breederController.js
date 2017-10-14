@@ -23,7 +23,7 @@ class BreederController {
             reply("Not found").code(404);
         }
         else {
-            reply(breederResult);
+            reply(JSON.stringify(breederResult));
         }        
     }
     
