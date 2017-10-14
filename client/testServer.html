@@ -11,12 +11,14 @@
         <!-- Controllers -->
         <script src="js/controllers/MainController.js"></script>
 
+        <!-- Services -->
+         <script src="js/services/breeders.js"></script>
         
     </head>
     
-<div ng-app="myApp" ng-controller="MainController"> 
+<div ng-app="BreederApp" ng-controller="MainController"> 
 
 <p>Today's welcome message is:</p>
-<h1>{{ stringshit }}</h1>
+<h1>{{ breederList.high }}</h1>
 
 </div></html>

@@ -15,9 +15,8 @@
 
     </head>
   
-    <body ng-app = "ForecastApp" ng-controller = "Hello">
-        
-        <p>welcome: {{ greeting }} </p>
+    <body ng-app = "myApp" ng-controller = "FirstCtrl">
+
         <ul id="slide-out" class="side-nav fixed" style = "width: auto">
             <img style = "height: 125px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px" src = "images/logo.ico">
             <li><a href="index.html">About</a></li>
@@ -35,7 +34,7 @@
                     <div class="nav-wrapper">
                       <form>
                         <div class="input-field teal lighten-1" style = "height: 40px">
-                          <input placeholder="Name" id="search" ng-model="newVar.val" type="search">
+                          <input placeholder="Name" id="search" ng-model="Alpha.Field" type="search">
                           <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                           <i class="material-icons">close</i>
                         </div>
@@ -69,9 +68,6 @@
                 </div>
             </div>
             
-            <p>vars: {{ newVar.val }}</p>
-            
-              
         </main>
 
     </body>

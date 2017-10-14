@@ -18,7 +18,7 @@
 
   </head>
   
-  <body ng-app="ForecastApp">
+  <body ng-app="myApp">
 
       <ul id="slide-out" class="side-nav fixed" style = "width: auto">
             <img style = "height: 125px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px" src = "images/logo.ico">
@@ -29,11 +29,6 @@
         <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 
         <main>
-            
-            <div ng-controller="MainController">
-
-            
-
                 <div class="row" style = "padding-top: 20px">
                     <div class="col s4">
                         <div class = "col s4"><h5>Name</h5></div>
@@ -63,8 +58,14 @@
                     <div class="divider"></div>
 
                 </div>
-                <pre>search  var: {{ anotherVar.val }}</pre>
                 
+            <div class="row" style = "padding-top: 100px">
+                <div class = "col s6 right-align">
+                    <h6>Don't see the breeder your looking for?</h6>
+                </div>
+                <div class = "col s6 left-align">
+                    <a href = "RateBreeder.html" class="waves-effect waves-light btn teal lighten-1" style="width: 200px">Add a Breeder</a>
+                </div>
             </div>
         </main>
 
