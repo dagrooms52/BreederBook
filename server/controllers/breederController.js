@@ -11,7 +11,14 @@ class BreederController {
     }
 
     getBreeder(breederId, reply) {
-        reply(this.orchestrator.getBreeder(breederId));
+        var breederResult = this.orchestrator.getBreeder(breederId);
+
+        if(breederResult == null){
+            reply("Not found").code(404);
+        }
+        else {
+            reply(breederResult);
+        }        
     }
     
     createBreeder(breederJson, reply) {

@@ -11,8 +11,11 @@ class BreederOrchestrator {
     getBreeder(breederId) {
         var isValidId = shortid.isValid(breederId);
 
-        var breeder = this.breeders[breederId];
+        var breeder = this.breeders[breederId.toString()];
         
+        console.log("get breeder data");
+        console.log(breeder);
+
         if (breeder){
             return breeder;
         }
@@ -25,12 +28,12 @@ class BreederOrchestrator {
         var breeder = breederData;
 
         // Create ID
-        var id = shortid.generate();
+        var id = shortid.generate().toString();
 
         breeder.id = id
 
         // Add to dictionary - this will become push to database
-        this.breeders.id = breeder;
+        this.breeders[id] = breeder;
 
         return breeder;
     }
