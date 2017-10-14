@@ -10,6 +10,8 @@
   "author": "Daniel Grooms",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^16.6.2"
+    "hapi": "^16.6.2",
+    "shortid": "^2.2.8",
+    "uuid": "^3.1.0"
   }
 }

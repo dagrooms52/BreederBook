@@ -7,3 +7,5 @@ class SurveyController {
     }
     
 }
+
+module.exports = SurveyController;
