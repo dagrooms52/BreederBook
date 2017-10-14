@@ -25,7 +25,7 @@
         app.controller('MainController', function($scope, $http) {
             $http ({
                 method : "GET",
-                url: "http://localhost:3000/breeders/BJCDCT1pb"
+                url: "http://localhost:3000/"
             }).then(function mySuccess(response) {
                 $scope.myWelcome = response.data;
             }, function myError(response) {

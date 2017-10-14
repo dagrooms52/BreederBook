@@ -36,7 +36,7 @@ var setup = new Setup(server);
 server.register({
     register: Cors,
     options: {
-        origins: ['http://127.0.0.1:63991']
+        origins: ['http://127.0.0.1:54680']
     }
 }, function(err){
     server.start(function(err){
