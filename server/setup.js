@@ -7,6 +7,7 @@ const UserController = require('./controllers/userController');
 const BreederOrchestrator = require('./orchestrators/breederOrchestrator');
 const SurveyOrchestrator = require('./orchestrators/surveyOrchestrator');
 const UserOrchestrator = require('./orchestrators/userOrchestrator');
+const Mongoose = require('mongoose');
 
 // A really bad fake IoC container
 class Setup {

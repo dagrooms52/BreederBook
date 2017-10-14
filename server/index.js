@@ -11,14 +11,11 @@ const server = new Hapi.Server();
 server.connection(
     { 
         port: 3000, 
-        host: 'localhost'/*, this might work?
+        host: 'localhost',
         routes: {
             cors: true
-        }*/
+        }
     });
-
-
-
 
 // TODO: Remove or make an intro page for the API
 server.route({
