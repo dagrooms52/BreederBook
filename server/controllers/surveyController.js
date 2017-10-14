@@ -14,6 +14,9 @@ class SurveyController {
 
     constructor(surveyOrchestrator, breederOrchestrator, userOrchestrator){
         this.orchestrator = surveyOrchestrator;
+        this.breederOrchestrator = breederOrchestrator;
+        this.userOrchestrator = userOrchestrator
+        
         this.validator = new Validator();
         this.surveySchema = JSON.parse(fs.readFileSync(schemaFile, 'utf8'));
     }
