@@ -1,23 +1,15 @@
-app.controller('MainController', ['$scope', 'forecast', function ($scope, forecast, SearchService) {
-  forecast.success(function(data) {
-    $scope.fiveDay = data;
-  });
-    $scope.searchVars = SearchService.searchVars;
-    $scope.newVar = {
-        val: ""
-    };
-    SearchService.newVal = $scope.newVar;
+'use strict';
 
-}]);
+var app = angular.module('myApp', []);
 
-
-app.controller('SearchController', function($scope, searchForm, SearchService) {
-    $scope.searchVars = SearchService.searchVars; 
-    $scope.anotherVar = SearchService.newVar;
-});
-
-app.service("SearchService", function() {
-    return {
-        searchVars: [{name: "dummy"}, {name: "dummy"}]
-    }
+app.controller('MainController', function ($scope, $http) {
+    $http.get("http://localhost:3000/breeders/BJbW8c16b")
+    .then(function(response) {
+        //First function handles success
+        $scope.content = response.data;
+    }, function(err) {
+        //Second function handles error
+        $scope.content = err;
+    });
+    
 });
