@@ -43,7 +43,7 @@ class BreederOrchestrator {
     }
 
     deleteBreeder(breederId) {
-        return;
+        delete this.breeders[breederId]
     }
 
 }
