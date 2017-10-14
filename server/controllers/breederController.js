@@ -37,6 +37,51 @@ class BreederController {
         reply(this.orchestrator.deleteBreeder(breederId));
     }
 
+    setupRoutes(server) {
+        var controller = this;
+
+        // GET /breeders/{breederId}
+        server.route({
+            method: 'GET',
+            path: baseRoute + '/{breederId}',
+            handler: function(request, reply){
+                var breederId = encodeURIComponent(request.params.breederId);
+                var result = controller.getBreeder(breederId, reply);
+            }
+        });
+
+        // POST /breeders
+        server.route({
+            method: 'POST',
+            path: baseRoute,
+            handler: function(request, reply){
+                var breederJson = request.payload;
+                controller.createBreeder(breederJson, reply)
+            }
+        });
+
+        // PATCH /breeders/{breederId}
+        server.route({
+            method: 'PATCH',
+            path: baseRoute + '/{breederId}',
+            handler: function(request, reply){
+                var breederId = encodeURIComponent(request.params.breederId);
+                var breederJson = request.payload;
+                var result = controller.updateBreeder(breederId, breederJson, reply)
+            }
+        });
+
+        // DELETE /breeders/{breederId}
+        server.route({
+            method: 'DELETE',
+            path: baseRoute + '/{breederId}',
+            handler: function(request, reply){
+                var breederId = encodeURIComponent(request.params.breederId);
+                var result = controller.deleteBreeder(breederId, reply);
+            }
+        });
+    }
+
 }
 
 module.exports = BreederController;
