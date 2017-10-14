@@ -8,13 +8,12 @@ const BreederOrchestrator = require('./orchestrators/breederOrchestrator');
 const SurveyOrchestrator = require('./orchestrators/surveyOrchestrator');
 const UserOrchestrator = require('./orchestrators/userOrchestrator');
 const Mongoose = require('mongoose');
+const dbConnection = "http://localhost:27017/test";
 
 // A really bad fake IoC container
 class Setup {
 
     constructor(server) {
-        this.breederController = null;
-
         this.setupServer(server);
     }
 
@@ -24,6 +23,8 @@ class Setup {
 
     setupControllers(server) {
         
+        Mongoose.connect(dbConnection);
+
         this.breederOrchestrator = new BreederOrchestrator();
         this.breederController = new BreederController(this.breederOrchestrator);
         this.breederController.setupRoutes(server);
@@ -35,7 +36,6 @@ class Setup {
         this.surveyOrchestrator = new SurveyOrchestrator();
         this.surveyController = new SurveyController(this.surveyOrchestrator, this.breederOrchestrator, this.userOrchestrator);
         this.surveyController.setupRoutes(server);
-
         
     }
 
