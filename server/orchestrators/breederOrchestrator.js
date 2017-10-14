@@ -5,11 +5,11 @@ const Breeder = require('../schemas/breeder/breeder')
 class BreederOrchestrator {
 
     constructor() {
-        this.breeders = {}
+        this.breeders = {};
     }
 
     getBreeder(breederId) {
-        var isValidId = shortid.isValid(breederId)
+        var isValidId = shortid.isValid(breederId);
 
         var breeder = this.breeders[breederId];
         
@@ -20,15 +20,21 @@ class BreederOrchestrator {
         return null;
     }
 
-    createBreeder(breederJson) {
-        // TODO: Check if json is valid; JSON schema? 
-        
-        var breeder = JSON.parse(breederJson)
+    createBreeder(breederJson) {        
+        var breeder = JSON.parse(breederJson);
 
         // Create ID
-        var id = shortid.generate()
+        var id = shortid.generate();
 
-        this.breeders.push(id, breeder)
+        this.breeders.push(id, breeder);
+    }
+
+    updateBreeder(breederJson) {
+        return;
+    }
+
+    deleteBreeder(breederId) {
+        return;
     }
 
 }

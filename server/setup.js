@@ -8,27 +8,36 @@ const BreederOrchestrator = require('./orchestrators/breederOrchestrator');
 class Setup {
 
     constructor(server) {
-        setupServer(server)
-        this.orchestrators = {}
-        this.controllers = {}
+        this.orchestrators = []
+        this.controllers = []
+
+        this.setupServer(server)
     }
 
-    static setupServer(server) {
-        setupControllers(server)
+    setupServer(server) {
+        this.setupControllers(server)
     }
 
-    static setupControllers(server) {
-        var orchestrators = setupOrchestrators();
+    setupControllers(server) {
+        var orchestrators = this.setupOrchestrators();
 
         var breederController = new BreederController(server, this.orchestrators['breeder']);
 
-        this.controllers.push('breeder', breederController)
+        this.controllers.push(
+            {
+                key: 'breeder', 
+                value: breederController
+            })
     }
 
-    static setupOrchestrators() {
+    setupOrchestrators() {
         var breederOrchestrator = new BreederOrchestrator();
 
-        this.orchestrators.push('breeder', breederOrchestrator);
+        this.orchestrators.push(
+            {
+                key: 'breeder', 
+                value: breederOrchestrator
+            });
     }
 
 }

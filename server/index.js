@@ -17,7 +17,7 @@ server.route({
 });
 
 // Call the "IoC" to set up all the routes on the server
-Setup.setupServer(server);
+var setup = new Setup(server)
 
 // Start the server
 server.start((err) => {

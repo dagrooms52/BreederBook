@@ -1,8 +1,9 @@
 'use strict';
 
+const BreederOrchestrator = require('../orchestrators/breederOrchestrator')
+const baseRoute = "/breeders"
+
 class BreederController {
-    
-    baseRoute = "/breeders"
 
     constructor(server, breederOrchestrator){
         this.server = server;
@@ -11,25 +12,31 @@ class BreederController {
     }
 
     getBreeder(request, reply) {
-        var breederId = request.params.breederId
-        this.orchestrator.getBreeder(breederId)
+        var breederId = request.params.breederId;
+        
+        this.orchestrator.getBreeder(breederId);
     }
     
     createBreeder(request, reply) {
-        //var breederSchema = request.payload ? 
+        // TODO: validate payload
+        var breederJson = request.payload;
 
-        this.orchestrator.createBreeder(request.payload)
+        this.orchestrator.createBreeder(breederJson);
     }
 
     updateBreeder(request, reply) {
-        var breederId = request.params.breederId
+        // TODO: validate payload
+
+        var breederId = request.params.breederId;
         // var breederSchema = request.payload ?
 
-        this.orchestrator.updateBreeder(breederId)        
+        this.orchestrator.updateBreeder(breederId);     
     }
 
     deleteBreeder(request, reply) {
-        return
+        var breederId = request.params.breederId;
+
+        this.orchestrator.deleteBreeder(breederId);
     }
 
     setupRoutes(server) {
@@ -41,7 +48,20 @@ class BreederController {
 
         server.route({
             method: 'POST',
-            path: baseRoute
+            path: baseRoute,
+            handler: this.createBreeder
+        });
+
+        server.route({
+            method: 'PATCH',
+            path: baseRoute + '/{breederId}',
+            handler: this.updateBreeder
+        });
+
+        server.route({
+            method: 'DELETE',
+            path: baseRoute + '/{breederId}',
+            handler: this.deleteBreeder
         });
     }
 
