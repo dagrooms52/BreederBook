@@ -10,7 +10,7 @@ const schemaFile = path.join(__dirname, 'jsonSchema/breeder.json');
 
 class BreederController {
 
-    constructor(server, breederOrchestrator){
+    constructor(breederOrchestrator){
         this.orchestrator = breederOrchestrator;
         this.validator = new Validator();
         this.breederSchema = JSON.parse(fs.readFileSync(schemaFile, 'utf8'));

@@ -10,7 +10,7 @@ const schemaFile = path.join(__dirname, 'jsonSchema/survey.json');
 
 class SurveyController {
 
-    constructor(server, surveyOrchestrator){
+    constructor(surveyOrchestrator){
         this.orchestrator = surveyOrchestrator;
         this.validator = new Validator();
         this.surveySchema = JSON.parse(fs.readFileSync(schemaFile, 'utf8'));
@@ -27,6 +27,7 @@ class SurveyController {
         }        
     }
     
+    // TODO: Make sure the breederId and userId exist in the system
     createSurvey(surveyJson, reply) {
         
         var surveyData = JSON.parse(surveyJson);
