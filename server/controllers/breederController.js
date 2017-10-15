@@ -26,6 +26,11 @@ class BreederController {
             reply("Not found").code(404);
         }
     }
+
+    async getAllBreeders(reply) {
+        var breeders = await this.orchestrator.getAllBreeders();
+        reply(breeders);
+    }
     
     async createBreeder(breederJson, reply) {
         
@@ -91,9 +96,25 @@ class BreederController {
         server.route({
             method: 'GET',
             path: baseRoute + '/{breederId}',
-            handler: function(request, reply){
+            handler: function(request, reply) {
                 var breederId = encodeURIComponent(request.params.breederId);
                 var promise = controller.getBreeder(breederId, reply);
+                promise.then(
+                    function(){
+                        console.log("Request completed");
+                    }, 
+                    function(){
+                        console.log("Error occurred");
+                        reply().code(500);
+                    });
+            }
+        });
+
+        server.route({
+            method: 'GET',
+            path: baseRoute,
+            handler: function(request, reply) {
+                var promise = controller.getAllBreeders(reply);
                 promise.then(
                     function(){
                         console.log("Request completed");

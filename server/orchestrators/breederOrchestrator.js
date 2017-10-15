@@ -20,6 +20,13 @@ class BreederOrchestrator {
         return await BreederModel.findOne({'id': breederId});
     }
 
+    async getAllBreeders() {
+        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        
+        var BreederModel = db.model('Breeder', BreederSchema);
+        return await BreederModel.find();
+    }
+
     // Returns: Breeder (null if failed)
     async createBreeder(breederData) {
 
