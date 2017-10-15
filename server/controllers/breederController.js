@@ -27,8 +27,13 @@ class BreederController {
         }
     }
 
-    async getAllBreeders(reply) {
-        var breeders = await this.orchestrator.getAllBreeders();
+    async searchBreeders(queryParams, reply) {
+        console.log("Invoking orchestrator search")
+        var breeders = await this.orchestrator.searchBreeders(
+            queryParams['country'], 
+            queryParams['state'], 
+            queryParams['city']
+        );
         reply(breeders);
     }
     
@@ -110,11 +115,16 @@ class BreederController {
             }
         });
 
+        // GET /breeders
+        // GET /breeders?country=usa
+        // GET /breeders?state=missouri
+        // GET /breeders?city=rolla                      
         server.route({
             method: 'GET',
             path: baseRoute,
             handler: function(request, reply) {
-                var promise = controller.getAllBreeders(reply);
+                var params = request.query;
+                var promise = controller.searchBreeders(params, reply);
                 promise.then(
                     function(){
                         console.log("Request completed");
