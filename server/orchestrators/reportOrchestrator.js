@@ -9,31 +9,45 @@ class ReportOrchestrator {
 
     async getBreederRiskReport() {
         // Get all breeders
+        console.log("Getting breeders")
         var breeders = await this.breederOrchestrator.searchBreeders();
 
-        var breedersToScores = {};
+        var breedersToScores = [];
 
         // For each breeder
         for(var i = 0; i < breeders.length; i++) {
             var riskScore = 0;
 
             // Get all surveys
+            console.log("Getting surveys")
             var surveys = await this.surveyOrchestrator.getSurveysForBreeder(breeders[i]._id);
 
             // For each survey
-            for(var i = 0; i < surveys.length; i++) {
-                // Get survey risk score
-                var surveyScore = this.scoreSurvey(surveys[i]);
+            if (surveys.length > 0) {
 
-                // Contribute to average risk
-                riskScore += surveyScore;
+                for(var j = 0; j < surveys.length; j++) {
+                    // Get survey risk score
+                    var surveyScore = this.scoreSurvey(surveys[j]);
+
+                    // Contribute to average risk
+                    console.log("Computing risk")
+                    riskScore += surveyScore;
+                }
+
+                console.log("Compute avg risk")
+                var avgRisk = riskScore / surveys.length;
+                
+                console.log("add breeder id and risk to breedersToScores")
+                console.log(breeders[i]._id);
+                console.log(avgRisk);
+                breedersToScores.push({key: breeders[i]._id, value: avgRisk});
+
+            } else {
+                console.log("Had a zero survey count and was dividing by zero dummy")
             }
-
-            var avgRisk = riskScore / surveys.length;
-            
-            breedersToScores[breeders[i].breederId] = avgRisk;
         }
 
+        console.log("exiting orchestrator")
         return breedersToScores;
     }
 
@@ -42,15 +56,15 @@ class ReportOrchestrator {
         // 5 being neutral
         var score = 5;
 
-        for (var i = 0; i < survey.questions.length; i++) {
+        for (var k = 0; k < survey.questions.length; k++) {
             var scalar = 0;
-            if (survey.questions[i].answer == "yes") {
+            if (survey.questions[k].answer == "yes") {
                 scalar = 1
             }
-            else if (survey.questions[i].answer == "no") {
+            else if (survey.questions[k].answer == "no") {
                 scalar = -1
             }
-            var scoreWeight = scalar * this.getMultiplier(survey.questions[i].question);
+            var scoreWeight = scalar * this.getMultiplier(survey.questions[k].question);
  
             score += scoreWeight;
         }

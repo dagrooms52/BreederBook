@@ -5,13 +5,13 @@ const Mongoose = require('mongoose');
 
 class UserOrchestrator {
 
-    constructor(dbConnectionUri) {
+    constructor(dbPromise) {
         this.users = {}
-        this.dbConnectionUri = dbConnectionUri;
+        this.dbPromise = dbPromise;
     }
 
     async getUser(userId) {
-        var db = await Mongoose.createConnection(this.dbConnectionUri);
+        var db = await this.dbPromise
         
         var UserModel = db.model('User', UserSchema);
         return await UserModel.findById(userId);
@@ -22,7 +22,7 @@ class UserOrchestrator {
 
         var user = userData;
 
-        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        var db = await this.dbPromise;
         
         var UserModel = db.model('User', UserSchema);
         var userEntry = new UserModel(user);

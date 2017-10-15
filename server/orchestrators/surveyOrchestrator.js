@@ -5,20 +5,20 @@ const Mongoose = require('mongoose');
 
 class SurveyOrchestrator {
 
-    constructor(dbConnectionUri) {
+    constructor(dbPromise) {
         this.surveys = {};
-        this.dbConnectionUri = dbConnectionUri;
+        this.dbPromise = dbPromise;
     }
 
     async getSurvey(surveyId) {
-        var db = await Mongoose.createConnection(this.dbConnectionUri);
+        var db = await this.dbPromise;
 
         var SurveyModel = db.model('Survey', SurveySchema);
         return await SurveyModel.findById(surveyId);
     }
 
     async getSurveysForBreeder(breederId) {
-        var db = await Mongoose.createConnection(this.dbConnectionUri);
+        var db = await this.dbPromise;
 
         var SurveyModel = db.model('Survey', SurveySchema);
         return await SurveyModel.find({'breederId': breederId});
@@ -37,7 +37,7 @@ class SurveyOrchestrator {
 
         var populatedSurvey = this.populateMissingEntries(survey);
 
-        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        var db = await this.dbPromise;
         
         var SurveyModel = db.model('Survey', SurveySchema);
         var surveyEntry = new SurveyModel(populatedSurvey);
@@ -48,7 +48,7 @@ class SurveyOrchestrator {
 
     // Returns: survey (null if failed)
     async updateSurvey(surveyId, surveyData) {
-        var db = await Mongoose.createConnection(this.dbConnectionUri);
+        var db = await this.dbPromise;
         var SurveyModel = db.model('Survey', SurveySchema);
         var result = await SurveyModel.findByIdAndUpdate(surveyId, surveyData, {new: true});
 
@@ -57,7 +57,7 @@ class SurveyOrchestrator {
 
     // TODO: Check if ID exists & return false / 404
     async deleteSurvey(surveyId) {
-        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        var db = await this.dbPromise;
         var SurveyModel = db.model('Survey', SurveySchema);    
         
         var result = await SurveyModel.findByIdAndRemove(surveyId);

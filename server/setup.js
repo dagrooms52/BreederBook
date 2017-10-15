@@ -26,16 +26,17 @@ class Setup {
     setupControllers(server) {
         
         Mongoose.Promise = global.Promise;
+        var dbPromise = Mongoose.createConnection(dbConnection, {useMongoClient: true});
 
-        this.breederOrchestrator = new BreederOrchestrator(dbConnection);
+        this.breederOrchestrator = new BreederOrchestrator(dbPromise);
         this.breederController = new BreederController(this.breederOrchestrator);
         this.breederController.setupRoutes(server);
 
-        this.userOrchestrator = new UserOrchestrator(dbConnection);
+        this.userOrchestrator = new UserOrchestrator(dbPromise);
         this.userController = new UserController(this.userOrchestrator);
         this.userController.setupRoutes(server);
 
-        this.surveyOrchestrator = new SurveyOrchestrator(dbConnection);
+        this.surveyOrchestrator = new SurveyOrchestrator(dbPromise);
         this.surveyController = new SurveyController(this.surveyOrchestrator, this.breederOrchestrator, this.userOrchestrator);
         this.surveyController.setupRoutes(server);
 
