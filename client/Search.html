@@ -14,8 +14,36 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     </head>
+    
+    <script>
+    var app = angular.module("myApp", []);
+    app.controller("HttpFilterController", function ($scope, $http) {
+
+        $scope.SearchData = function () {
+
+            var config = {
+              params: {
+//                "name.first": $scope.firstname,
+//                "name.last": $scope.lastname,
+                "city": $scope.city,
+                "state": $scope.state
+              }
+            };
+            
+
+            $http.get('https://petsource-pethacks.herokuapp.com/breeders', config)
+            .success(function (response) {
+                $scope.PostDataResponse = response;
+            })
+            .error(function (response) {
+                $scope.ResponseDetails = response
+            });
+        };
+
+    });
+</script>
   
-    <body ng-app = "myApp" ng-controller = "FirstCtrl" style = "background-image: url(); background-size: cover; background-repeat:no-repeat; background-position: center center">
+    <body ng-app = "myApp" ng-controller = "HttpFilterController">
 
          <ul id="slide-out" class="side-nav fixed" style = "width: auto">
             <a href = "index.html"><img href = "index.html" style = "height: 200px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px; padding-right: 20px" src = "images/logo.ico"></a>
@@ -30,54 +58,52 @@
               
             
             <div class="row" style = "padding-top: 10%">
-                <div class="col s12"><h2 class = "center-align">Find a Breeder</h2></div>
-                <div class="col s6  offset-s3">
+                <div class="col s12"><h2 class = "center-align blue-grey-text text-darken-3">Find a Breeder</h2></div>
+                <div class="col s8  offset-s2">
                     <div class="nav-wrapper">
-                      <form>
-                        <div class="input-field teal lighten-1" style = "height: 40px">
-                          <input placeholder="Name" id="search" ng-model="Alpha.Field" type="search">
-                          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                          <i class="material-icons">close</i>
+                        <div class = "row">
+
+                            <div class="row">
+                                <div class="input-field col s6">
+                                  <input ng-model = "firstname" id="first_name" type="text" class="validate">
+                                  <label class = "active" for="first_name">First Name</label>
+                                </div>
+                                <div class="input-field col s6">
+                                  <input ng-model = "lastname" id="last_name" type="text" class="validate">
+                                  <label class = "active" for="last_name">Last Name</label>
+                                </div>
+                              </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                  <input ng-model = "city" id="city" type="text" class="validate">
+                                  <label class = "active" for="city">City</label>
+                                </div>
+                                <div class="input-field col s6">
+                                  <input ng-model = "state" id="state" type="text" class="validate">
+                                  <label class = "active" for="state">State</label>
+                                </div>
+                              </div>
                         </div>
-                      </form>
                     </div>
                     
-                    <div class="nav-wrapper">
-                      <form>
-                        <div class="input-field teal lighten-1" style = "height: 40px">
-                          <input placeholder="Location" id="search" ng-model="statesearch" type="search" required>
-                          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                          <i class="material-icons">close</i>
-                        </div>
-                      </form>
-                    </div>
                     
-                    <div class="nav-wrapper">
-                      <form>
-                        <div class="input-field teal lighten-1" style = "height: 40px">
-                          <input placeholder="Breed" id="search" ng-model="breedsearch" type="search" required>
-                          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                          <i class="material-icons">close</i>
-                        </div>
-                      </form>
-                    </div>
-                    
-                    <div style="padding-top: 30px">
-                        <a href = "SearchResults.html" class="waves-effect waves-light btn teal lighten-1" style="width: 100%">Search</a>
+                    <div style="padding-top: 30px" class = "center-align">
+                        <a ng-click = "SearchData()" class="waves-effect waves-light btn" style="width: 75%">Search</a>
                     </div>
                     
                 </div>
             </div>
             
+            
         </main>
 
+        <p> {{ PostDataResponse }} </p>
+        <p> {{ PostDataResponse }} </p>
+        
     </body>
 
     <!-- Modules -->
     <script src="js/app.js"></script>
-
-    <!-- Controllers -->
-    <script src="js/controllers/MainController.js"></script>
 
     <!-- Services (CHANGE TO DANS) -->
     <script src="js/services/forecast.js"></script>

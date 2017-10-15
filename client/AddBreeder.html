@@ -15,62 +15,86 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     </head>
     
-<!--
-    <script>
-       var app = angular.module('myApp', []);
-
-        app.controller('postCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.count = 0;
-    $scope.postFunc = function() {
-        var url = 'http://localhost:3000/breeders/';
-        
-        var breederData = 
-            {
-                "name":{
-                "first":"Daniel",
-                "last":"Grooms"},
-            "location":{
-                "country":"Fuckville",
-                "city":"City of Dummy Bears"},
-             "breeds":["pug"],
-             "rating":1,
-             "comment":"He farts",
-             };
-
-        var payload = JSON.stringify(breederData);
-        $http({
-            method: 'POST',
-            url: url,
-            data: payload
-        }).success(function () {});
-    };
-}]);
-    </script>
---> 
+    
+    <!-- Controller topost data to server -->
     
     <script>
     var app = angular.module("myApp", []);
     app.controller("HttpGetController", function ($scope, $http) {
+        
+        var id;
 
         $scope.SendData = function () {
            // use $.param jQuery function to serialize data from JSON 
             var data = {
-                    name:{
-                        first: $scope.firstname,
-                        last: $scope.lastname},
-                    location:{
-                        country: $scope.country,
-                        city: $scope.city},
-                    breeds:["pomeranian"]
-            };        
+                    "name":{
+                        "first": $scope.firstname,
+                        "last": $scope.lastname},
+                    "location":{
+                        "country": $scope.country,
+                        "state": $scope.state,
+                        "city": $scope.city},
+                    "breeds":["pomeranian"]
+            };
+            
+            
             
 
             $http.post('https://petsource-pethacks.herokuapp.com/breeders', data, {headers: {'Content-Type': 'application/json'}})
             .success(function (data, status, headers) {
                 $scope.PostDataResponse = data;
+                id = data._id;
+                $scope.SendSurveyData();
             })
             .error(function (data, status, headers) {
                 $scope.ResponseDetails = "Data: " + data +
+                    "<hr />status: " + status +
+                    "<hr />headers: " + headers;
+            });
+
+        };
+        
+        $scope.SendSurveyData = function () {
+           
+            var surveydata = 
+                {
+                  "breederId": id,
+                  "questions": [
+                    {
+                        "question": "Was the dog less than eight (8) weeks old?",
+                        "answer": $scope.younger8weeks
+                    },
+                    {
+                        "question": "Did you pick up the dog from the seller's house?",
+                        "answer": $scope.seeparents
+                    },
+                    {
+                        "question": "Were all animals kept in clean and safe conditions?",
+                        "answer": $scope.meetathouse
+                    },
+                    {
+                        "question": "Did you see the parents of the dog?",
+                        "answer": $scope.safeconds
+                    },
+                    {
+                        "question": "Did you discover any health problems after receiving the dog?",
+                        "answer": $scope.health
+                    }
+                  ],
+                  "comment": $scope.comment,
+                  "rating": 3
+                }
+            ; 
+            
+            
+            
+            $http.post('https://petsource-pethacks.herokuapp.com/surveys', surveydata, {headers: {'Content-Type': 'application/json'}})
+            .success(function (data, status, headers) {
+                $scope.SurvPostDataResponse = data; 
+                window.location = 'BreedersRatings.html';
+            })
+            .error(function (data, status, headers) {
+                $scope.SurvResponseDetails = "Data: " + data +
                     "<hr />status: " + status +
                     "<hr />headers: " + headers;
             });
@@ -93,7 +117,7 @@
 
         <div class="row" style = "padding-left: 5%; padding-right: 5%">
             <div class="col s12 card card-content black-text  z-depth-4">
-              <div class="row" style = "padding-top: 30px; height: 900px">
+              <div class="row" style = "padding-top: 30px">
                 <form class="col s12">
                   <div class="row">
                     <div class="input-field col s6">
@@ -108,7 +132,7 @@
                 <div class="row">
                     <div class="input-field col s12">
                       <input ng-model = "city" id="city" type="text" class="validate">
-                      <label class = "active" for="state">City</label>
+                      <label class = "active" for="city">City</label>
                     </div>
                   </div>
                     <div class="row">
@@ -125,7 +149,7 @@
                   </div>
                     <div style = "padding-left: 40px">
                   <div class="row">
-                    <div class="col s8 right-align">
+                    <div class="col s8">
                       <p>Was the pet younger than 8 weeks old?</p>
                     </div>
                       <div class="col s4 valign-wrapper">
@@ -138,7 +162,7 @@
                     </div>
                   </div>
                     <div class="row">
-                    <div class="col s8 right-align">
+                    <div class="col s8">
                       <p>Were you able to see the parents?</p>
                     </div>
                       <div class="col s4 valign-wrapper">
@@ -151,7 +175,7 @@
                     </div>
                   </div>
                     <div class="row">
-                    <div class="col s8 right-align">
+                    <div class="col s8">
                       <p>Did you meet at the breeders home?</p>
                     </div>
                       <div class="col s4 valign-wrapper">
@@ -164,7 +188,7 @@
                     </div>
                   </div>
                     <div class="row">
-                    <div class="col s8 right-align">
+                    <div class="col s8">
                       <p>Were the pets kept in clean and safe living conditions?</p>
                     </div>
                       <div class="col s4 valign-wrapper">
@@ -190,7 +214,7 @@
                     </div>
                   </div>
                     <div class="row">
-                    <div class="col s8 right-align">
+                    <div class="col s8">
                       <p>Please select your dog's breed.</p>
                     </div>
                       <div class="col s4 valign-wrapper">
@@ -203,8 +227,8 @@
                                 <option value="3">Option 3</option>
                               </select>
                           </div>
-                    </div>
                         </div>
+                    </div>
                   </div>
                     
                       <div class="row">
@@ -218,8 +242,8 @@
                     <button class="waves-effect waves-light btn teal lighten-1" style="width: 30%" ng-click="SendData()">SUBMIT</button>
                       
                   </div>
-                      <p>{{ PostDataResponse }}</p>
-                      <p>{{ ResponseDetails }}</p>
+                      <p>{{ SurvPostDataResponse._id }}</p>
+                      <p>{{ SurvPostDataResponse }}</p>
                       <p>{{ firstname }}</p>
               </div>
             </div>

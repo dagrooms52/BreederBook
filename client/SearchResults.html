@@ -36,6 +36,9 @@
             $scope.getNumber = function(num) {
                 return new Array(num);
             }
+            
+            
+            
         });
         
     </script>
@@ -60,7 +63,7 @@
                 
             <div ng-repeat="breeder in breederData">
                 <div style="padding-left:10%; padding-right: 10%; padding-top: 10px">
-                    <a href="RateBreeder.html" class = "grey-text text-darken-4">
+                    <a ng-click = "rateBreeder({{ breeder._id }})" class = "grey-text text-darken-4">
                      <div class="col s12 m7 card horizontal white z-depth-4 grey-text text-darken-4">
                          
                           <div class="card-stacked grey-text text-darken-4">
@@ -107,7 +110,7 @@
 
         <!-- Controllers -->
 <!--    script src="js/controllers/MainController.js"></script>-->
-
+        
         <!-- JS Scripts -->
         <script src="js/scripts.js"></script>
 
