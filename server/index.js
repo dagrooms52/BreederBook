@@ -11,7 +11,7 @@ const server = new Hapi.Server();
 server.connection(
     { 
         port: process.env.NODE_PORT || 3000, 
-        host: 'localhost',
+        host: process.env.HOST_URL || 'localhost',
         routes: {
             cors: true
         }
