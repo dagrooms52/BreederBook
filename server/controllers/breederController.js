@@ -19,13 +19,16 @@ class BreederController {
 
     async getBreeder(breederId, reply) {
         var breeder = await this.orchestrator.getBreeder(breederId);
-        reply(breeder);
+        if(breeder != null) {
+            reply(breeder);
+        }
+        else {
+            reply("Not found").code(404);
+        }
     }
     
     async createBreeder(breederJson, reply) {
         
-        console.log("Creating breeder");
-
         var breederData = breederJson;
 
         var validationResult = this.validator.validate(breederData, this.breederSchema);
@@ -34,22 +37,19 @@ class BreederController {
             reply("Bad request").code(400);
             return;
         }
-        console.log("Validated JSON")
         
         var breederResult = await this.orchestrator.createBreeder(breederData);
 
-        console.log("Orchestrator returned")
         if(breederResult == null) {
             // If generated ID was not unique, rather fail than overwrite data
             reply("Internal server error.").code(500);
         }
 
-        console.log("About to reply with the breeder result");
         reply(JSON.stringify(breederResult));
     }
 
     async updateBreeder(breederId, breederJson, reply) {
-        var breederData = JSON.parse(breederJson);
+        var breederData = breederJson;
 
         if(breederData.id != null && breederData.id != breederId){
             reply("Bad request. Breeder ID does not match route's breeder ID.").code(400);
@@ -63,22 +63,27 @@ class BreederController {
             return;
         }
 
-        var updateResult =  this.orchestrator.updateBreeder(breederId, breederData);
+        var updateResult = await this.orchestrator.updateBreeder(breederId, breederData);
 
-        if(updateResult) {
-            reply().code(200);
-        } 
+        if(updateResult != null) {
+            reply(updateResult);
+        }
         else {
             reply("Not found").code(404);
         }
     }
 
     async deleteBreeder(breederId, reply) {
-        this.orchestrator.deleteBreeder(breederId)
-        reply().code(200);
+        var result = await this.orchestrator.deleteBreeder(breederId)
+        if(result){
+            reply().code(200);
+        }
+        else {
+            reply("Not found").code(404)
+        }
     }
 
-    // All routes are set up for async
+    // All routes are set up for promise handling
     setupRoutes(server) {
         var controller = this;
 
@@ -91,10 +96,10 @@ class BreederController {
                 var promise = controller.getBreeder(breederId, reply);
                 promise.then(
                     function(){
-                        console.log("Request succeeded")
+                        console.log("Request completed")
                     }, 
                     function(){
-                        console.log("Request failed")
+                        console.log("Error occurred")
                     });
             }
         });
@@ -108,10 +113,10 @@ class BreederController {
                 var promise = controller.createBreeder(breederJson, reply);
                 promise.then(
                     function(){
-                        console.log("Request succeeded")
+                        console.log("Request completed")
                     }, 
                     function(){
-                        console.log("Request failed")
+                        console.log("Error occurred")
                     });
             }
         });
@@ -126,10 +131,10 @@ class BreederController {
                 var promise = controller.updateBreeder(breederId, breederJson, reply);
                 promise.then(
                     function(){
-                        console.log("Request succeeded")
+                        console.log("Request completed")
                     }, 
                     function(){
-                        console.log("Request failed")
+                        console.log("Error occurred")
                     });
             }
         });
@@ -143,10 +148,10 @@ class BreederController {
                 var promise = controller.deleteBreeder(breederId, reply);
                 promise.then(
                     function(){
-                        console.log("Request succeeded")
+                        console.log("Request completed")
                     }, 
                     function(){
-                        console.log("Request failed")
+                        console.log("Error occurred")
                     });           
             }
         });

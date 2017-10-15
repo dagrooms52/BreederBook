@@ -15,9 +15,6 @@ class SurveyOrchestrator {
 
         var survey = this.surveys[surveyId.toString()];
         
-        console.log("get survey data");
-        console.log(survey);
-
         if (survey){
             return survey;
         }

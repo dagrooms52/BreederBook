@@ -15,10 +15,7 @@ class BreederOrchestrator {
         var isValidId = shortid.isValid(breederId);
         if (!isValidId) return null;
 
-        console.log("Creating connection")
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
-        console.log("Entering data lookup")
-        console.log("Looking for breeder id " + breederId)
 
         var BreederModel = db.model('Breeder', BreederSchema);
         return await BreederModel.findOne({'id': breederId});
@@ -27,49 +24,42 @@ class BreederOrchestrator {
     // Returns: Breeder (null if failed)
     async createBreeder(breederData) {
 
-        console.log("Got breeder data in orchestrator")
         var breeder = breederData;
 
         // Create ID
         var id = shortid.generate().toString();
-
-        console.log("Id is going to be " + id);
         breeder.id = id
 
-        // Add to dictionary - this will become push to database
-        if(this.breeders[id] != null) {
-            // Would overwrite data - this is a server error, non-unique ID
-            return null;
-        }
-
-        console.log("opening mongo connection");
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
         
         var BreederModel = db.model('Breeder', BreederSchema);
         var breederEntry = new BreederModel(breeder);
-        console.log("saving breeder");
         var breederResult = await breederEntry.save();
-        console.log("breeder saved")
+
         return breederResult
     }
 
-    // Returns: bool (success)
+    // Returns: breeder (null if failed)
     async updateBreeder(breederId, breederData) {
+        if (!shortid.isValid(breederId)) { return false };
         
-        // This is checked in the controller but enforced here
-        breederData.id = breederId;
+        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        var BreederModel = db.model('Breeder', BreederSchema);        
+        var result = await BreederModel.findOneAndUpdate({'id': breederId}, breederData);
 
-        if(this.breeders[breederId] == null) {
-            return false;
-        }
-
-        this.breeders[breederId] = breederData;
-        return true;
+        return result;
     }
 
-    // TODO: Check if id exists & return false / 404
+    // Returns: bool success/fail
     async deleteBreeder(breederId) {
-        delete this.breeders[breederId]
+        if (!shortid.isValid(breederId)) return false;
+
+        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        var BreederModel = db.model('Breeder', BreederSchema);    
+        
+        var result = await BreederModel.findOneAndRemove({'id': breederId});
+
+        return result != null;
     }
 
 }
