@@ -9,12 +9,6 @@
       "title": "The breederid schema.", 
       "type": "string"
     }, 
-    "id": {
-      "description": "Internal ID of the survey.",
-      "id": "http://example.com/example.json/properties/id", 
-      "title": "The id schema.", 
-      "type": "string"
-    }, 
     "questions": {
       "id": "http://example.com/example.json/properties/questions", 
       "items": [
@@ -59,6 +53,14 @@
       "id": "http://example.com/example.json/properties/userId", 
       "title": "The userid schema.", 
       "type": "string"
+    },
+    "comment": {
+      "type": "string"
+    },
+    "rating": {
+      "type" : "integer",
+      "maximum": 5,
+      "minimum": 1
     }
   }, 
   "type": "object",

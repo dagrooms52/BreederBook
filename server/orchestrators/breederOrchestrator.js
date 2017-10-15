@@ -37,13 +37,10 @@ class BreederOrchestrator {
 
     // Returns: Breeder (null if failed)
     async createBreeder(breederData) {
-
-        var breeder = breederData;
-
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
-        
+
         var BreederModel = db.model('Breeder', BreederSchema);
-        var breederEntry = new BreederModel(breeder);
+        var breederEntry = new BreederModel(breederData);
         var breederResult = await breederEntry.save();
 
         return breederResult

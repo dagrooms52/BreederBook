@@ -26,10 +26,13 @@ class SurveyOrchestrator {
 
     // Returns: Survey (null if failed)
     async createSurvey(surveyData) {
+        
         var survey = {
             breederId: surveyData.breederId,
             userId: surveyData.userId,
-            questions: surveyData.questions
+            questions: surveyData.questions,
+            comment: surveyData.comment,
+            rating: surveyData.rating
         };
 
         var populatedSurvey = this.populateMissingEntries(survey);
@@ -37,8 +40,9 @@ class SurveyOrchestrator {
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
         
         var SurveyModel = db.model('Survey', SurveySchema);
-        var surveyEntry = new SurveyModel(survey);
+        var surveyEntry = new SurveyModel(populatedSurvey);
         var surveyResult = await surveyEntry.save();
+
         return surveyResult;
     }
 
@@ -82,6 +86,8 @@ class SurveyOrchestrator {
                 newData.questions.push({question: questions[i], answer: "did not answer"});
             }
         }
+
+        return newData;
     }
 
 }

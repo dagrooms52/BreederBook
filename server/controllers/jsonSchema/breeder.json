@@ -15,25 +15,7 @@
         "type": "string"
       }, 
       "type": "array"
-    }, 
-    "comment": {
-      "default": "Wow what a really cool guy", 
-      "description": "An explanation about the purpose of this instance.", 
-      "examples": [
-        "Wow what a really cool guy"
-      ], 
-      "id": "/properties/comment", 
-      "title": "The comment schema.", 
-      "type": "string"
-    }, 
-    "id": {
-      "description": "An explanation about the purpose of this instance.", 
-      "examples": [
-      ], 
-      "id": "/properties/id", 
-      "title": "The id schema.", 
-      "type": "string"
-    }, 
+    },
     "location": {
       "id": "/properties/location", 
       "properties": {
@@ -110,21 +92,8 @@
       "required": [
           "first", "last"
       ]
-    }, 
-    "rating": {
-      "description": "An explanation about the purpose of this instance.", 
-      "examples": [
-        "4.9",
-        "1",
-        "2.5"
-      ], 
-      "id": "/properties/rating", 
-      "title": "The rating schema.", 
-      "type": "number",
-      "minimum": 1,
-      "maximum": 5
     }
   }, 
-  "required": ["breeds", "location", "name", "rating"],
+  "required": ["breeds", "location", "name"],
   "type": "object"
 }

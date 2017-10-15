@@ -13,15 +13,7 @@ const BreederSchema = new Schema({
         state: String,
         city: String
     },
-    breeds:[String],
-    rating: {
-        count: Number,
-        averageRating: {
-            type: Number,
-            min: 1,
-            max: 5
-        }
-    }
+    breeds:[String]
 });
 
 module.exports = BreederSchema;
