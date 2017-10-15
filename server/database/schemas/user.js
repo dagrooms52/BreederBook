@@ -3,7 +3,6 @@
 const Schema = require('mongoose').Schema;
 
 const UserSchema = new Schema({
-    id: {type: String, index: true},
     email: String,
     name: {
         first: String,

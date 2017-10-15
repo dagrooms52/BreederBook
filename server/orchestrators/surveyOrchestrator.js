@@ -1,6 +1,5 @@
 'use strict';
 const Survey = require('../schemas/survey/survey');
-const shortid = require('shortid');
 const SurveySchema = require('../database/schemas/survey');
 const Mongoose = require('mongoose');
 
@@ -12,12 +11,10 @@ class SurveyOrchestrator {
     }
 
     async getSurvey(surveyId) {
-        if (!shortid.isValid(surveyId)) { return null; }
-
         var db = await Mongoose.createConnection(this.dbConnectionUri);
 
         var SurveyModel = db.model('Survey', SurveySchema);
-        return await SurveyModel.findOne({'id': surveyId});
+        return await SurveyModel.findById(surveyId);
     }
 
     async getSurveysForBreeder(breederId, reply) {
@@ -32,8 +29,7 @@ class SurveyOrchestrator {
         var survey = {
             breederId: surveyData.breederId,
             userId: surveyData.userId,
-            questions: surveyData.questions,
-            id: shortid.generate().toString()
+            questions: surveyData.questions
         };
 
         var populatedSurvey = this.populateMissingEntries(survey);
@@ -48,23 +44,19 @@ class SurveyOrchestrator {
 
     // Returns: survey (null if failed)
     async updateSurvey(surveyId, surveyData) {
-        if (!shortid.isValid(surveyId)) { return null };
-
         var db = await Mongoose.createConnection(this.dbConnectionUri);
         var SurveyModel = db.model('Survey', SurveySchema);
-        var result = await SurveyModel.findOneAndUpdate({'id': surveyId}, surveyData, {new: true});
+        var result = await SurveyModel.findByIdAndUpdate(surveyId, surveyData, {new: true});
 
         return result;
     }
 
     // TODO: Check if ID exists & return false / 404
     async deleteSurvey(surveyId) {
-        if (!shortid.isValid(surveyId)) return false;
-
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
         var SurveyModel = db.model('Survey', SurveySchema);    
         
-        var result = await SurveyModel.findOneAndRemove({'id': surveyId});
+        var result = await SurveyModel.findByIdAndRemove(surveyId);
 
         return result != null;
     }

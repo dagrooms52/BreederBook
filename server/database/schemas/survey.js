@@ -3,9 +3,8 @@
 const Schema = require('mongoose').Schema;
 
 const SurveySchema = new Schema({
-    id: {type: String, index: true},
-    breederId: String,
-    userId: String,
+    breederId: { type: Schema.Types.ObjectId, ref: 'Breeder' },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
     questions:[{
         question: {
             type: String,

@@ -1,6 +1,5 @@
 'use strict';
 
-const shortid = require('shortid');
 const UserSchema = require('../database/schemas/user');
 const Mongoose = require('mongoose');
 
@@ -12,22 +11,16 @@ class UserOrchestrator {
     }
 
     async getUser(userId) {
-        if(!shortid.isValid(userId)) { return null; }
-
         var db = await Mongoose.createConnection(this.dbConnectionUri);
         
         var UserModel = db.model('User', UserSchema);
-        return await UserModel.findOne({'id': userId});
+        return await UserModel.findById(userId);
     }
 
     // Returns: User (null if failed)
     async createUser(userData) {
 
         var user = userData;
-
-        // Create ID
-        var id = shortid.generate().toString();
-        user.id = id
 
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
         

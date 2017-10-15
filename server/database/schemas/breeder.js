@@ -3,7 +3,6 @@
 const Schema = require('mongoose').Schema;
 
 const BreederSchema = new Schema({
-    id: {type: String, index: true},
     name: {
         first: String,
         middle: String,
