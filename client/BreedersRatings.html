@@ -44,6 +44,8 @@
     <!-- Main body -->
     <body ng-app="myApp" ng-controller = "MainController"  class = "teal lighten-2">
 
+        <b>test: {{ breederData }}</b>
+        <b>error: {{ errReport }}</b>
       <ul id="slide-out" class="side-nav fixed" style = "width: auto">
             <a href = "index.html"><img href = "index.html" style = "height: 200px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px; padding-right: 20px" src = "images/logo.ico"></a>
             <li><a href="index.html">About</a></li>
@@ -67,20 +69,20 @@
                             <div class="card-content">
                                 <div class = "row">
                                 <div class = "col s8">
-                                    <h4>{{ breeder.name.first }} {{ breeder.name.last }}</h4>
+                                    <h4>Ashley Huels{{ breeder.name.first }} {{ breeder.name.last }}</h4>
                                     </div>
                                 <div class = "col s4 right-align">
-                                <div ng-repeat="i in getNumber(breeder.rating) track by $index">
+                                <div ng-repeat="i in getNumber(3) track by $index">
                                     <i class="material-icons" style = "background-color: white; color: #fdd835; float:left;font-size: 40px;">star</i>
                                 </div>
                                 </div>
                                 </div>
                                 <div class = "row">
                                 <div class ="col s4">
-                                <h6>{{ breeder.location.city }}, {{ breeder.location.state }}<br />{{ breeder.location.country }}</h6>
+                                <h6>Edwardsville, IL{{ breeder.location.city }}, {{ breeder.location.state }}<br />United States{{ breeder.location.country }}</h6>
                                 </div>
                               <div class = "col s8 right-align">
-                                <p> {{ breeder.comment }}</p>
+                                <p> Very clean, great dogs.</p>
                               </div>
                               </div>
                             </div>
