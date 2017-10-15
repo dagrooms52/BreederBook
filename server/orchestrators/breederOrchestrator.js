@@ -1,36 +1,39 @@
 'use strict';
 const Breeder = require('../schemas/breeder/breeder')
 const shortid = require('shortid');
+const BreederSchema = require('../database/schemas/breeder');
+const Mongoose = require('mongoose');
 
 class BreederOrchestrator {
 
-    constructor() {
+    constructor(dbConnectionUri) {
         this.breeders = {};
+        this.dbConnectionUri = dbConnectionUri;
     }
 
-    getBreeder(breederId) {
+    async getBreeder(breederId) {
         var isValidId = shortid.isValid(breederId);
+        if (!isValidId) return null;
 
-        var breeder = this.breeders[breederId.toString()];
-        
-        console.log("get breeder data");
-        console.log(breeder);
+        console.log("Creating connection")
+        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        console.log("Entering data lookup")
+        console.log("Looking for breeder id " + breederId)
 
-        if (breeder){
-            return breeder;
-        }
-
-        return null;
+        var BreederModel = db.model('Breeder', BreederSchema);
+        return await BreederModel.findOne({'id': breederId});
     }
 
     // Returns: Breeder (null if failed)
-    createBreeder(breederData) {
+    async createBreeder(breederData) {
 
+        console.log("Got breeder data in orchestrator")
         var breeder = breederData;
 
         // Create ID
         var id = shortid.generate().toString();
 
+        console.log("Id is going to be " + id);
         breeder.id = id
 
         // Add to dictionary - this will become push to database
@@ -39,13 +42,19 @@ class BreederOrchestrator {
             return null;
         }
 
-        this.breeders[id] = breeder;
-
-        return breeder;
+        console.log("opening mongo connection");
+        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        
+        var BreederModel = db.model('Breeder', BreederSchema);
+        var breederEntry = new BreederModel(breeder);
+        console.log("saving breeder");
+        var breederResult = await breederEntry.save();
+        console.log("breeder saved")
+        return breederResult
     }
 
     // Returns: bool (success)
-    updateBreeder(breederId, breederData) {
+    async updateBreeder(breederId, breederData) {
         
         // This is checked in the controller but enforced here
         breederData.id = breederId;
@@ -59,7 +68,7 @@ class BreederOrchestrator {
     }
 
     // TODO: Check if id exists & return false / 404
-    deleteBreeder(breederId) {
+    async deleteBreeder(breederId) {
         delete this.breeders[breederId]
     }
 

@@ -30,12 +30,13 @@ server.route({
 var setup = new Setup(server);
 
 // Start the server
-server.register({
-    register: Cors,
-    options: {
-        origins: ['http://127.0.0.1:54680']
-    }
-}, function(err){
+server.register([
+    {
+        register: Cors,
+        options: {
+            origins: ['http://127.0.0.1:54680']
+        }
+    }], function(err){
     server.start(function(err){
         if(err) throw err;
 

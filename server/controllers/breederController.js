@@ -7,6 +7,7 @@ const Validator = require('jsonschema').Validator;
 const fs = require('fs');
 const path = require('path');
 const schemaFile = path.join(__dirname, 'jsonSchema/breeder.json');
+const instapromise = require('instapromise');
 
 class BreederController {
 
@@ -16,19 +17,15 @@ class BreederController {
         this.breederSchema = JSON.parse(fs.readFileSync(schemaFile, 'utf8'));
     }
 
-    getBreeder(breederId, reply) {
-        var breederResult = this.orchestrator.getBreeder(breederId);
-
-        if(breederResult == null){
-            reply("Not found").code(404);
-        }
-        else {
-            reply(JSON.stringify(breederResult));
-        }        
+    async getBreeder(breederId, reply) {
+        var breeder = await this.orchestrator.getBreeder(breederId);
+        reply(breeder);
     }
     
-    createBreeder(breederJson, reply) {
+    async createBreeder(breederJson, reply) {
         
+        console.log("Creating breeder");
+
         var breederData = JSON.parse(breederJson);
 
         var validationResult = this.validator.validate(breederData, this.breederSchema);
@@ -37,18 +34,21 @@ class BreederController {
             reply("Bad request").code(400);
             return;
         }
+        console.log("Validated JSON")
         
-        var breederResult = this.orchestrator.createBreeder(breederData);
+        var breederResult = await this.orchestrator.createBreeder(breederData);
 
+        console.log("Orchestrator returned")
         if(breederResult == null) {
             // If generated ID was not unique, rather fail than overwrite data
             reply("Internal server error.").code(500);
         }
 
+        console.log("About to reply with the breeder result");
         reply(JSON.stringify(breederResult));
     }
 
-    updateBreeder(breederId, breederJson, reply) {
+    async updateBreeder(breederId, breederJson, reply) {
         var breederData = JSON.parse(breederJson);
 
         if(breederData.id != null && breederData.id != breederId){
@@ -73,11 +73,12 @@ class BreederController {
         }
     }
 
-    deleteBreeder(breederId, reply) {
+    async deleteBreeder(breederId, reply) {
         this.orchestrator.deleteBreeder(breederId)
         reply().code(200);
     }
 
+    // All routes are set up for async
     setupRoutes(server) {
         var controller = this;
 
@@ -87,7 +88,14 @@ class BreederController {
             path: baseRoute + '/{breederId}',
             handler: function(request, reply){
                 var breederId = encodeURIComponent(request.params.breederId);
-                var result = controller.getBreeder(breederId, reply);
+                var promise = controller.getBreeder(breederId, reply);
+                promise.then(
+                    function(){
+                        console.log("Request succeeded")
+                    }, 
+                    function(){
+                        console.log("Request failed")
+                    });
             }
         });
 
@@ -95,9 +103,16 @@ class BreederController {
         server.route({
             method: 'POST',
             path: baseRoute,
-            handler: function(request, reply){
+            handler: function(request, reply) {
                 var breederJson = request.payload;
-                controller.createBreeder(breederJson, reply)
+                var promise = controller.createBreeder(breederJson, reply);
+                promise.then(
+                    function(){
+                        console.log("Request succeeded")
+                    }, 
+                    function(){
+                        console.log("Request failed")
+                    });
             }
         });
 
@@ -105,10 +120,17 @@ class BreederController {
         server.route({
             method: 'PUT',
             path: baseRoute + '/{breederId}',
-            handler: function(request, reply){
+            handler: function(request, reply) {
                 var breederId = encodeURIComponent(request.params.breederId);
                 var breederJson = request.payload;
-                var result = controller.updateBreeder(breederId, breederJson, reply)
+                var promise = controller.updateBreeder(breederId, breederJson, reply);
+                promise.then(
+                    function(){
+                        console.log("Request succeeded")
+                    }, 
+                    function(){
+                        console.log("Request failed")
+                    });
             }
         });
 
@@ -116,9 +138,16 @@ class BreederController {
         server.route({
             method: 'DELETE',
             path: baseRoute + '/{breederId}',
-            handler: function(request, reply){
+            handler: function(request, reply) {
                 var breederId = encodeURIComponent(request.params.breederId);
-                var result = controller.deleteBreeder(breederId, reply);
+                var promise = controller.deleteBreeder(breederId, reply);
+                promise.then(
+                    function(){
+                        console.log("Request succeeded")
+                    }, 
+                    function(){
+                        console.log("Request failed")
+                    });           
             }
         });
     }

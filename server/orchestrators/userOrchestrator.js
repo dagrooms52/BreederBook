@@ -1,10 +1,13 @@
 'use strict';
 
 const shortid = require('shortid');
+const UserSchema = require('../database/schemas/user');
 
 class UserOrchestrator {
-    constructor() {
+
+    constructor(dbConnectionUri) {
         this.users = {}
+        this.dbConnectionUri = dbConnectionUri;
     }
 
     getUser(userId) {

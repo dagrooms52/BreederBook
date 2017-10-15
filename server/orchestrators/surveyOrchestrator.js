@@ -1,11 +1,13 @@
 'use strict';
 const Survey = require('../schemas/survey/survey')
 const shortid = require('shortid');
+const SurveySchema = require('../database/schemas/survey');
 
 class SurveyOrchestrator {
 
-    constructor() {
+    constructor(dbConnectionUri) {
         this.surveys = {};
+        this.dbConnectionUri = dbConnectionUri;
     }
 
     getSurvey(surveyId) {
