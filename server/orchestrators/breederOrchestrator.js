@@ -22,7 +22,7 @@ class BreederOrchestrator {
 
     async searchBreeders(country="", state="", city="") {
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
-        console.log("Making query")
+        
         var findQuery = {};
         if (country != ""){
             findQuery["location.country"] = country;
@@ -33,7 +33,7 @@ class BreederOrchestrator {
         if (city != "") {
             findQuery["location.city"] = city;
         }
-        console.log(findQuery);
+        
         var BreederModel = db.model('Breeder', BreederSchema);
         return await BreederModel.find(findQuery);
     }

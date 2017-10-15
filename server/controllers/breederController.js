@@ -28,7 +28,6 @@ class BreederController {
     }
 
     async searchBreeders(queryParams, reply) {
-        console.log("Invoking orchestrator search")
         var breeders = await this.orchestrator.searchBreeders(
             queryParams['country'], 
             queryParams['state'], 
