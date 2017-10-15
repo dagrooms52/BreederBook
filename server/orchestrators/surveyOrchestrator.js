@@ -17,7 +17,7 @@ class SurveyOrchestrator {
         return await SurveyModel.findById(surveyId);
     }
 
-    async getSurveysForBreeder(breederId, reply) {
+    async getSurveysForBreeder(breederId) {
         var db = await Mongoose.createConnection(this.dbConnectionUri);
 
         var SurveyModel = db.model('Survey', SurveySchema);

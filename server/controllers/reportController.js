@@ -9,7 +9,7 @@ class ReportController {
     }
 
     async getBreederRiskReport(reply) {
-        
+        reply(await this.reportOrchestrator.getBreederRiskReport());
     }
 
     setupRoutes(server) {
