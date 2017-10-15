@@ -1,7 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi');
-const SurveyOrchestrator = require('../orchestrators/SurveyOrchestrator');
+const SurveyOrchestrator = require('../orchestrators/surveyOrchestrator');
 const BreederOrchestrator = require('../orchestrators/breederOrchestrator');
 const UserOrchestrator = require('../orchestrators/userOrchestrator');
 const baseRoute = "/surveys";
