@@ -26,7 +26,7 @@ class BreederController {
         
         console.log("Creating breeder");
 
-        var breederData = JSON.parse(breederJson);
+        var breederData = breederJson;
 
         var validationResult = this.validator.validate(breederData, this.breederSchema);
         if (!validationResult.valid) {
