@@ -42,6 +42,12 @@
 
     });
 </script>
+    <script>
+        $(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+    </script>
   
     <body ng-app = "myApp" ng-controller = "HttpFilterController">
 
@@ -49,7 +55,7 @@
             <a href = "index.html"><img href = "index.html" style = "height: 200px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px; padding-right: 20px" src = "images/logo.ico"></a>
             <li><a href="index.html">About</a></li>
             <li class="active"><a href="Search.html">Find a Breeder</a></li>
-            <li><a>Donate</a></li>
+            <li><a href = "Analytics.html" >Analytics</a></li>
         </ul>
         
         <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons medium grey" style = "color: white">menu</i></a>
@@ -57,7 +63,7 @@
         <main>
               
             
-            <div class="row" style = "padding-top: 10%">
+            <div class="row" style = "padding-top: 20px%">
                 <div class="col s12"><h2 class = "center-align blue-grey-text text-darken-3">Find a Breeder</h2></div>
                 <div class="col s8  offset-s2">
                     <div class="nav-wrapper">
@@ -94,11 +100,65 @@
                 </div>
             </div>
             
+            <div style = "padding-top: 70px">
+            <div ng-repeat="breeder in PostDataResponse">
+                <div style="padding-left:10%; padding-right: 10%; padding-top: 10px">
+                    <a ng-click = "#modal1" class = "grey-text text-darken-4">
+                     <div class="col s12 m7 card horizontal white z-depth-4 grey-text text-darken-4">
+                         
+                          <div class="card-stacked grey-text text-darken-4">
+                            <div class="card-content">
+                                <div class = "row">
+                                <div class = "col s8">
+                                    <h4>{{ breeder.name.first }} {{ breeder.name.last }}</h4>
+                                    </div>
+                                <div class = "col s4 right-align">
+                                <div ng-repeat="i in getNumber(3) track by $index">
+                                    <i class="material-icons" style = "background-color: white; color: #fdd835; float:left;font-size: 40px;">star</i>
+                                </div>
+                                </div>
+                                </div>
+                                <div class = "row">
+                                <div class ="col s4">
+                                <h6>{{ breeder.location.city }}, {{ breeder.location.state }}<br />{{ breeder.location.country }}</h6>
+                                </div>
+                              <div class = "col s8 right-align">
+                                <p> {{ breeder.comment }}</p>
+                              </div>
+                              </div>
+                            </div>
+                              <a href = "#modal1" class="btn-floating halfway-fab waves-effect waves-light yellow darken-1"><i class="material-icons">flag</i></a>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                
+            </div>
+                
+            <div class="row" style = "padding-top: 100px">
+                <div class = "col s6 right-align">
+                    <h6>Can't the breeder you're looking for?</h6>
+                </div>
+                <div class = "col s6 left-align">
+                    <a href = "AddBreeder.html" class="waves-effect waves-light btn teal darken-1" style="width: 200px">Add a Breeder</a>
+                </div>
+            </div>
+            </div>
+            
+              <!-- Modal Structure -->
+              <div id="modal1" class="modal">
+                <div class="modal-content">
+                  <h4>Modal Header</h4>
+                  <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+              </div>
+            
             
         </main>
-
-        <p> {{ PostDataResponse }} </p>
-        <p> {{ PostDataResponse }} </p>
+    
         
     </body>
 
