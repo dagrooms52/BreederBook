@@ -31,13 +31,11 @@ class SurveyOrchestrator {
 
         var populatedSurvey = this.populateMissingEntries(survey);
 
-        console.log("Populated the survey");
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
         
         var SurveyModel = db.model('Survey', SurveySchema);
         var surveyEntry = new SurveyModel(survey);
         var surveyResult = await surveyEntry.save();
-        console.log("Saved survey");
         return surveyResult;
     }
 
@@ -79,12 +77,9 @@ class SurveyOrchestrator {
         for(var i = 0; i < newData.questions.length; i++){
             presentQuestions.push(newData.questions[i].question)
         }
-        console.log(presentQuestions);
 
         for(var i = 0; i < questions.length; i++){
-            console.log("Checking question: " + questions[i])
             if(!presentQuestions.includes(questions[i])){
-                console.log("Question was not present in survey")
                 newData.questions.push({question: questions[i], answer: "did not answer"});
             }
         }
