@@ -19,7 +19,6 @@ class ReportOrchestrator {
             var riskScore = 0;
 
             // Get all surveys
-            console.log("Getting surveys")
             var surveys = await this.surveyOrchestrator.getSurveysForBreeder(breeders[i]._id);
 
             // For each survey
@@ -30,24 +29,16 @@ class ReportOrchestrator {
                     var surveyScore = this.scoreSurvey(surveys[j]);
 
                     // Contribute to average risk
-                    console.log("Computing risk")
                     riskScore += surveyScore;
                 }
 
-                console.log("Compute avg risk")
-                var avgRisk = riskScore / surveys.length;
+                var avgRisk = 10 - (riskScore / surveys.length);
                 
-                console.log("add breeder id and risk to breedersToScores")
-                console.log(breeders[i]._id);
-                console.log(avgRisk);
-                breedersToScores.push({key: breeders[i]._id, value: avgRisk});
+                breedersToScores.push({breederId: breeders[i]._id, risk: avgRisk});
 
-            } else {
-                console.log("Had a zero survey count and was dividing by zero dummy")
             }
         }
 
-        console.log("exiting orchestrator")
         return breedersToScores;
     }
 
