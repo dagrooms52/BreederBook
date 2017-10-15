@@ -40,7 +40,7 @@ class BreederOrchestrator {
 
     // Returns: breeder (null if failed)
     async updateBreeder(breederId, breederData) {
-        if (!shortid.isValid(breederId)) { return false };
+        if (!shortid.isValid(breederId)) { return null };
         
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
         var BreederModel = db.model('Breeder', BreederSchema);        

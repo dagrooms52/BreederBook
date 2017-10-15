@@ -2,6 +2,7 @@
 const Survey = require('../schemas/survey/survey')
 const shortid = require('shortid');
 const SurveySchema = require('../database/schemas/survey');
+const Mongoose = require('mongoose');
 
 class SurveyOrchestrator {
 
@@ -10,56 +11,54 @@ class SurveyOrchestrator {
         this.dbConnectionUri = dbConnectionUri;
     }
 
-    getSurvey(surveyId) {
-        var isValidId = shortid.isValid(surveyId);
+    async getSurvey(surveyId) {
+        if (!shortid.isValid(surveyId)) { return null; }
 
-        var survey = this.surveys[surveyId.toString()];
-        
-        if (survey){
-            return survey;
-        }
+        var db = await Mongoose.createConnection(this.dbConnectionUri);
 
-        return null;
+        var SurveyModel = db.model('Survey', SurveySchema);
+        return await SurveyModel.findOne({'id': surveyId});
     }
 
     // Returns: Survey (null if failed)
-    createSurvey(surveyData) {
+    async createSurvey(surveyData) {
 
         var survey = surveyData;
 
         // Create ID
         var id = shortid.generate().toString();
-
         survey.id = id
 
-        // Add to dictionary - this will become push to database
-        if(this.surveys[id] != null) {
-            // Would overwrite data - this is a server error, non-unique ID
-            return null;
-        }
+        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        
+        var SurveyModel = db.model('Survey', SurveySchema);
+        var surveyEntry = new SurveyModel(survey);
+        var surveyResult = await surveyEntry.save();
 
-        this.surveys[id] = survey;
-
-        return survey;
+        return surveyResult;
     }
 
-    // Returns: bool (success)
-    updateSurvey(surveyId, surveyData) {
-        
-        // This is checked in the controller but enforced here
-        surveyData.id = surveyId;
+    // Returns: survey (null if failed)
+    async updateSurvey(surveyId, surveyData) {
+        if (!shortid.isValid(surveyId)) { return null };
 
-        if(this.surveys[surveyId] == null) {
-            return false;
-        }
+        var db = await Mongoose.createConnection(this.dbConnectionUri);
+        var SurveyModel = db.model('Survey', SurveySchema);
+        var result = await SurveyModel.findOneAndUpdate({'id': surveyId}, surveyData);
 
-        this.surveys[surveyId] = surveyData;
-        return true;
+        return result;
     }
 
     // TODO: Check if ID exists & return false / 404
-    deleteSurvey(surveyId) {
-        delete this.surveys[surveyId]
+    async deleteSurvey(surveyId) {
+        if (!shortid.isValid(surveyId)) return false;
+
+        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        var SurveyModel = db.model('Survey', SurveySchema);    
+        
+        var result = await SurveyModel.findOneAndRemove({'id': surveyId});
+
+        return result != null;
     }
 
 }
