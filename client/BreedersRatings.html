@@ -36,9 +36,6 @@
             $scope.getNumber = function(num) {
                 return new Array(num);
             }
-            
-            
-            
         });
         
     </script>
@@ -58,32 +55,32 @@
         <main>
             
             <div>
-                <h1 style = "color: white; padding-left: 10%">Results </h1>
+                <h1 style = "color: white; padding-left: 10%">Reviews </h1>
             </div>
                 
             <div ng-repeat="breeder in breederData">
                 <div style="padding-left:10%; padding-right: 10%; padding-top: 10px">
-                    <a ng-click = "rateBreeder({{ breeder._id }})" class = "grey-text text-darken-4">
+                    <a href="RateBreeder.html" class = "grey-text text-darken-4">
                      <div class="col s12 m7 card horizontal white z-depth-4 grey-text text-darken-4">
                          
                           <div class="card-stacked grey-text text-darken-4">
                             <div class="card-content">
                                 <div class = "row">
                                 <div class = "col s8">
-                                    <h4>{{ breeder.name.first }} {{ breeder.name.last }}</h4>
+                                    <h4>Ashley Huels{{ breeder.name.first }} {{ breeder.name.last }}</h4>
                                     </div>
                                 <div class = "col s4 right-align">
-                                <div ng-repeat="i in getNumber(breeder.rating) track by $index">
+                                <div ng-repeat="i in getNumber(3) track by $index">
                                     <i class="material-icons" style = "background-color: white; color: #fdd835; float:left;font-size: 40px;">star</i>
                                 </div>
                                 </div>
                                 </div>
                                 <div class = "row">
                                 <div class ="col s4">
-                                <h6>{{ breeder.location.city }}, {{ breeder.location.state }}<br />{{ breeder.location.country }}</h6>
+                                <h6>Edwardsville, IL{{ breeder.location.city }}, {{ breeder.location.state }}<br />United States{{ breeder.location.country }}</h6>
                                 </div>
                               <div class = "col s8 right-align">
-                                <p> {{ breeder.comment }}</p>
+                                <p> Very clean, great dogs.</p>
                               </div>
                               </div>
                             </div>
@@ -110,7 +107,7 @@
 
         <!-- Controllers -->
 <!--    script src="js/controllers/MainController.js"></script>-->
-        
+
         <!-- JS Scripts -->
         <script src="js/scripts.js"></script>
 

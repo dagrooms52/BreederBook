@@ -10,7 +10,7 @@ const SurveyOrchestrator = require('./orchestrators/surveyOrchestrator');
 const UserOrchestrator = require('./orchestrators/userOrchestrator');
 const ReportOrchestrator = require('./orchestrators/reportOrchestrator');
 const Mongoose = require('mongoose');
-const dbConnection = process.env.MONGODB_URI || "mongodb://localhost:27017/test";
+const dbConnection = "mongodb://172.25.0.0/test";
 
 // A really bad fake IoC container
 class Setup {
