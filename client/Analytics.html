@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+  <head>
+      
+    <script src="js/scripts.js"></script>
+      
+    <!-- Include css Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+      
+    <!-- Include the AngularJS library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+      
+    <!-- Include Materialize Library -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+      
+  </head>
+
+    <!-- Controller to get search results -->
+    <script>
+        
+        var app = angular.module('myApp', []);
+        var highRisk = 0;
+        var total = 0;
+        
+        app.controller('MainController', function($scope, $http) {
+            $http ({
+                method : "GET",
+                url: "https://petsource-pethacks.herokuapp.com/reports/risk/breeders"
+            }).then(function mySuccess(response) {
+                $scope.data = response.data;
+            }, function myError(response) {
+                $scope.errReport = response.statusText;
+            });
+            
+//            $scope.count = function (value) {
+//                
+//                if(value > 5) {
+//                    $scope.highRisk = $scope.highRisk+1;
+//                }
+//                $scope.total = $scope.total+1;
+//                
+//            }
+            
+        });
+        
+    </script>
+    
+    
+    <!-- Main body -->
+    <body ng-app="myApp" ng-controller = "MainController">
+        
+        <p></p>
+
+      <ul id="slide-out" class="side-nav fixed" style = "width: auto">
+            <a href = "index.html"><img href = "index.html" style = "height: 200px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px; padding-right: 20px" src = "images/logo.ico"></a>
+            <li><a href="index.html">About</a></li>
+            <li class="active"><a href="Search.html">Find a Breeder</a></li>
+            <li><a href = "Analytics.html">Analytics/a></li>
+        </ul>
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons medium grey" style = "color: white">menu</i></a>
+
+        <main>
+            
+            <div>
+                <h1 style = "padding-left: 10%">Data & Analytics</h1>
+            </div>
+                
+            <div ng-repeat="stat in data">
+                
+                <div style="padding-left:20%; padding-right: 20%; padding-top: 10px">
+                     <div class="col s12 m7 card horizontal white z-depth-4 grey-text text-darken-4">
+                         
+                          <div class="card-stacked grey-text text-darken-4">
+                            <div class="card-content">
+                                <div class = "row">
+                                <div class = "col s8">
+                                    <h4>{{ stat.name.first }} {{ stat.name.last }}</h4>
+                                    </div>
+                                </div>
+                                <div class = "row">
+                                <div class ="col s4">
+                                <h5>{{ stat.location.city }}, {{ stat.location.state }}<br />{{ stat.location.country }}</h5>
+                                </div>
+                                    <div class = "col s8 right-align">
+                                        
+                                        <a class="btn-floating waves-effect waves-light yellow darken-1"><i class="material-icons">flag</i></a>
+                                    
+                                    
+                                    <h5 style = "float: right">{{ stat.risk }} </h5>
+                                    </div>
+                              </div>
+                            </div>
+                              
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+
+        <!-- Modules -->
+        <script src="js/app.js"></script>
+
+        <!-- Controllers -->
+<!--    script src="js/controllers/MainController.js"></script>-->
+        
+        <!-- JS Scripts -->
+        <script src="js/scripts.js"></script>
+
+
+  </body>
+</html>
