@@ -10,7 +10,7 @@ const Cors = require('hapi-cors');
 const server = new Hapi.Server();
 server.connection(
     { 
-        port: 3000, 
+        port: process.env.NODE_PORT || 3000, 
         host: 'localhost',
         routes: {
             cors: true
