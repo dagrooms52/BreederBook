@@ -12,8 +12,7 @@ class BreederOrchestrator {
     }
 
     async getBreeder(breederId) {
-        var isValidId = shortid.isValid(breederId);
-        if (!isValidId) return null;
+        if (!shortid.isValid(breederId)) { return null; }
 
         var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
 

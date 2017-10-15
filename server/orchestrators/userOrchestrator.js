@@ -2,6 +2,7 @@
 
 const shortid = require('shortid');
 const UserSchema = require('../database/schemas/user');
+const Mongoose = require('mongoose');
 
 class UserOrchestrator {
 
@@ -10,39 +11,31 @@ class UserOrchestrator {
         this.dbConnectionUri = dbConnectionUri;
     }
 
-    getUser(userId) {
-        if(!shortid.isValid(userId)) {
-            return null;
-        }
+    async getUser(userId) {
+        if(!shortid.isValid(userId)) { return null; }
 
-        var user = this.users[userId.toString()];
+        var db = await Mongoose.createConnection(this.dbConnectionUri);
         
-        if (user){
-            return user;
-        }
-
-        return null;
+        var UserModel = db.model('User', UserSchema);
+        return await UserModel.findOne({'id': userId});
     }
 
     // Returns: User (null if failed)
-    createUser(userData) {
+    async createUser(userData) {
 
         var user = userData;
 
         // Create ID
         var id = shortid.generate().toString();
-
         user.id = id
 
-        // Add to dictionary - this will become push to database
-        if(this.users[id] != null) {
-            // Would overwrite data - this is a server error, non-unique ID
-            return null;
-        }
+        var db = await Mongoose.createConnection(this.dbConnectionUri, {useMongoClient: true});
+        
+        var UserModel = db.model('User', UserSchema);
+        var userEntry = new UserModel(user);
+        var userResult = await userEntry.save();
 
-        this.users[id] = user;
-
-        return user;
+        return userResult;
     }
 }
 

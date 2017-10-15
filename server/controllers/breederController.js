@@ -45,7 +45,7 @@ class BreederController {
             reply("Internal server error.").code(500);
         }
 
-        reply(JSON.stringify(breederResult));
+        reply(breederResult);
     }
 
     async updateBreeder(breederId, breederJson, reply) {
@@ -96,10 +96,11 @@ class BreederController {
                 var promise = controller.getBreeder(breederId, reply);
                 promise.then(
                     function(){
-                        console.log("Request completed")
+                        console.log("Request completed");
                     }, 
                     function(){
-                        console.log("Error occurred")
+                        console.log("Error occurred");
+                        reply().code(500);
                     });
             }
         });
@@ -113,10 +114,11 @@ class BreederController {
                 var promise = controller.createBreeder(breederJson, reply);
                 promise.then(
                     function(){
-                        console.log("Request completed")
+                        console.log("Request completed");
                     }, 
                     function(){
-                        console.log("Error occurred")
+                        console.log("Error occurred");
+                        reply().code(500);
                     });
             }
         });
@@ -131,10 +133,11 @@ class BreederController {
                 var promise = controller.updateBreeder(breederId, breederJson, reply);
                 promise.then(
                     function(){
-                        console.log("Request completed")
+                        console.log("Request completed");
                     }, 
                     function(){
-                        console.log("Error occurred")
+                        console.log("Error occurred");
+                        reply().code(500);
                     });
             }
         });
@@ -148,10 +151,11 @@ class BreederController {
                 var promise = controller.deleteBreeder(breederId, reply);
                 promise.then(
                     function(){
-                        console.log("Request completed")
+                        console.log("Request completed");
                     }, 
                     function(){
-                        console.log("Error occurred")
+                        console.log("Error occurred");
+                        reply().code(500);
                     });           
             }
         });
