@@ -47,7 +47,7 @@ class SurveyOrchestrator {
 
         var db = await Mongoose.createConnection(this.dbConnectionUri);
         var SurveyModel = db.model('Survey', SurveySchema);
-        var result = await SurveyModel.findOneAndUpdate({'id': surveyId}, surveyData);
+        var result = await SurveyModel.findOneAndUpdate({'id': surveyId}, surveyData, {new: true});
 
         return result;
     }
