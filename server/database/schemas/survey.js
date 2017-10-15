@@ -24,8 +24,10 @@ const SurveySchema = new Schema({
                 "did not answer"
             ],
             default: "did not answer"
-        }
-    }]
+        }        
+    }],
+    rating: { type: Number, min: 1, max: 5},
+    comment : String
 });
 
 module.exports = SurveySchema;
