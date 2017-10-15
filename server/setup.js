@@ -8,7 +8,7 @@ const BreederOrchestrator = require('./orchestrators/breederOrchestrator');
 const SurveyOrchestrator = require('./orchestrators/surveyOrchestrator');
 const UserOrchestrator = require('./orchestrators/userOrchestrator');
 const Mongoose = require('mongoose');
-const dbConnection = "mongodb://localhost:27017/test";
+const dbConnection = process.env.MONGO_DB || "mongodb://localhost:27017/test";
 
 // A really bad fake IoC container
 class Setup {
