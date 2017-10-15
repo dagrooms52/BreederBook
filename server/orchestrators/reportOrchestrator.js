@@ -34,7 +34,14 @@ class ReportOrchestrator {
 
                 var avgRisk = 10 - (riskScore / surveys.length);
                 
-                breedersToScores.push({breederId: breeders[i]._id, risk: avgRisk});
+                var report = {
+                    breederId : breeders[i]._id,
+                    location : breeders[i].location,
+                    name: breeders[i].name,
+                    risk: avgRisk
+                }
+
+                breedersToScores.push(report);
 
             }
         }
