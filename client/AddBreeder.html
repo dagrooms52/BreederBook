@@ -98,9 +98,47 @@
               <div class="row" style = "padding-top: 30px;">
                 <form class="col s12">
                   <div class="row">
-                    <div class="col s12">
-                        <h5 class = "gray"> Breeder: </h5>
-                        <h5 style = "foat: left;">Ashley Huels</h5>
+                    <div class="input-field col s6">
+                      <input ng-model = "firstname" id="first_name" type="text" class="validate">
+                      <label class = "active" for="first_name">First Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input ng-model = "lastname" id="last_name" type="text" class="validate">
+                      <label class = "active" for="last_name">Last Name</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                  </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                      <input ng-model = "city" id="city" type="text" class="validate">
+                      <label class = "active" for="state">City</label>
+                    </div>
+                  </div>
+                    <div class="row">
+                    <div class="input-field col s12">
+                      <input ng-model = "state" id="state" type="text" class="validate">
+                      <label class = "active" for="state">State</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input ng-model = "country" id="country" type="text" class="validate">
+                      <label ng-model = "country" class = "active" for="country">Country</label>
+                    </div>
+                  </div>
+                    <div style = "padding-left: 40px">
+                  <div class="row">
+                    <div class="col s8 right-align">
+                      <p>Was the pet younger than 8 weeks old?</p>
+                    </div>
+                      <div class="col s4 valign-wrapper">
+                          <div class="toggle">
+                            <label><input type="radio" name="toggle" ng-model = "younger8weeks" value = "yes"><span>Yes</span></label>    
+                        </div>
+                        <div class="toggle">
+                            <label><input type="radio" name="toggle" ng-model = "younger8weeks" value = "no"><span>No</span></label>
+                        </div>
                     </div>
                   </div>
                     <div class="row">
@@ -154,7 +192,24 @@
                             <label><input type="radio" name="toggle" ng-model = "health" value = "no"><span>No</span></label>
                         </div>
                     </div>
+                  </div>
+                    <div class="row">
+                    <div class="col s8 right-align">
+                      <p>Please select your dog's breed.</p>
                     </div>
+                      <div class="col s4 valign-wrapper">
+                          <div class="input-field col s12">
+                            <label>Browser Select</label>
+                              <select class="browser-default">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="1">Option 1</option>
+                                <option value="2">Option 2</option>
+                                <option value="3">Option 3</option>
+                              </select>
+                          </div>
+                    </div>
+                        </div>
+                  </div>
                     
                       <div class="row">
                     <div class="input-field col s12">
