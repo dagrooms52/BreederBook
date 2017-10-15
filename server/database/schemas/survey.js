@@ -3,9 +3,8 @@
 const Schema = require('mongoose').Schema;
 
 const SurveySchema = new Schema({
-    id: {type: String, index: true},
-    breederId: String,
-    userId: String,
+    breederId: { type: Schema.Types.ObjectId, ref: 'Breeder' },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
     questions:[{
         question: {
             type: String,
@@ -25,8 +24,10 @@ const SurveySchema = new Schema({
                 "did not answer"
             ],
             default: "did not answer"
-        }
-    }]
+        }        
+    }],
+    rating: { type: Number, min: 1, max: 5},
+    comment : String
 });
 
 module.exports = SurveySchema;

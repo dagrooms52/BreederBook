@@ -7,7 +7,6 @@ const Validator = require('jsonschema').Validator;
 const fs = require('fs');
 const path = require('path');
 const schemaFile = path.join(__dirname, 'jsonSchema/breeder.json');
-const instapromise = require('instapromise');
 
 class BreederController {
 
@@ -25,6 +24,15 @@ class BreederController {
         else {
             reply("Not found").code(404);
         }
+    }
+
+    async searchBreeders(queryParams, reply) {
+        var breeders = await this.orchestrator.searchBreeders(
+            queryParams['country'], 
+            queryParams['state'], 
+            queryParams['city']
+        );
+        reply(breeders);
     }
     
     async createBreeder(breederJson, reply) {
@@ -91,9 +99,30 @@ class BreederController {
         server.route({
             method: 'GET',
             path: baseRoute + '/{breederId}',
-            handler: function(request, reply){
+            handler: function(request, reply) {
                 var breederId = encodeURIComponent(request.params.breederId);
                 var promise = controller.getBreeder(breederId, reply);
+                promise.then(
+                    function(){
+                        console.log("Request completed");
+                    }, 
+                    function(){
+                        console.log("Error occurred");
+                        reply().code(500);
+                    });
+            }
+        });
+
+        // GET /breeders
+        // GET /breeders?country=usa
+        // GET /breeders?state=missouri
+        // GET /breeders?city=rolla                      
+        server.route({
+            method: 'GET',
+            path: baseRoute,
+            handler: function(request, reply) {
+                var params = request.query;
+                var promise = controller.searchBreeders(params, reply);
                 promise.then(
                     function(){
                         console.log("Request completed");
