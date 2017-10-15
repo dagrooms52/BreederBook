@@ -10,11 +10,7 @@ const Cors = require('hapi-cors');
 const server = new Hapi.Server();
 server.connection(
     { 
-        port: process.env.NODE_PORT || 3000, 
-        host: process.env.HOST_URL || 'localhost',
-        routes: {
-            cors: true
-        }
+        port: process.env.NODE_PORT || 3000
     });
 
 // TODO: Remove or make an intro page for the API
