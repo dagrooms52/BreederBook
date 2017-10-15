@@ -18,7 +18,8 @@
       
   </head>
 
-        <script>
+    <!-- Controller to get search results -->
+    <script>
         
         var app = angular.module('myApp', []);
         
@@ -26,64 +27,78 @@
         app.controller('MainController', function($scope, $http) {
             $http ({
                 method : "GET",
-                url: "http://localhost:3000/breeders/BkQ3sR1ab"
+                url: "http://localhost:3000/breeders/rJO4tHxTb"
             }).then(function mySuccess(response) {
-                $scope.myWelcome = response.data;
+                $scope.breederData = response.data;
             }, function myError(response) {
-                $scope.myWelcome = response.statusText;
+                $scope.errReport = response.statusText;
             });
+            $scope.getNumber = function(num) {
+                return new Array(num);
+            }
         });
         
     </script>
     
     
-    <body ng-app="myApp" ng-controller = "MainController">
+    <!-- Main body -->
+    <body ng-app="myApp" ng-controller = "MainController"  class = "teal lighten-2">
 
+<!--        <b>test: {{ breederData }}</b>-->
       <ul id="slide-out" class="side-nav fixed" style = "width: auto">
-            <img style = "height: 175px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px; padding-right: 20px" src = "images/logo.ico">
+            <a href = "index.html"><img href = "index.html" style = "height: 200px; padding-top: 15px; padding-bottom: 15px; padding-left: 20px; padding-right: 20px" src = "images/logo.ico"></a>
             <li><a href="index.html">About</a></li>
             <li class="active"><a href="Search.html">Find a Breeder</a></li>
             <li><a>Donate</a></li>
         </ul>
-        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons medium grey" style = "color: white">menu</i></a>
 
-        <main style = "padding: 10px">
-                <div class="row" style = "padding-top: 20px">
-                    <div class="col s4">
-                        <div class = "col s4"><h5>Name</h5></div>
-<!--                        <div class = "col s3 left-align"><a class="btn-floating btn-tiny waves-effect waves-light grey"><i class="material-icons">filter_list</i></a></div>-->
-                    </div>
-                    <div class="col s4">
-                        <div class = "col s4"><h5>Location</h5></div>
-<!--                        <div class = "col s3 left-align"><a class="btn-floating btn-tiny waves-effect waves-light grey"><i class="material-icons">filter_list</i></a></div>-->
-                    </div>
-                    <div class="col s4">
-                        <div class = "col s4"><h5>Breed</h5></div>
-<!--                        <div class = "col s3 left-align"><a class="btn-floating btn-tiny waves-effect waves-light grey"><i class="material-icons">filter_list</i></a></div>-->
-                    </div>
-                </div>
-
-
+        <main>
+            
+            <div>
+                <h1 style = "color: white; padding-left: 10%">Results </h1>
+            </div>
                 
-                <div class="divider"></div>
-                
-                <div class="forecast" ng-repeat="day in fiveDay.days | filter: {{ anotherVar.val }}">
-
-                    <div class="row" style = "padding-top: 20px">
-                        <div class="col s4"><p>{{ day.datetime | date }}</p></div>
-                        <div class="col s4"><p>{{ day.high }}</p></div>
-                        <div class = "col s4"><p>{{ day.low }}</p></div>
+            <div ng-repeat="breeder in breederData">
+                <div style="padding-left:10%; padding-right: 10%; padding-top: 10px">
+                    <a href="RateBreeder.html" class = "grey-text text-darken-4">
+                     <div class="col s12 m7 card horizontal white z-depth-4 grey-text text-darken-4">
+                         
+                          <div class="card-stacked grey-text text-darken-4">
+                            <div class="card-content">
+                                <div class = "row">
+                                <div class = "col s8">
+                                    <h4>Ashley Huels{{ breeder.name.first }} {{ breeder.name.last }}</h4>
+                                    </div>
+                                <div class = "col s4 right-align">
+                                <div ng-repeat="i in getNumber(3) track by $index">
+                                    <i class="material-icons" style = "background-color: white; color: #fdd835; float:left;font-size: 40px;">star</i>
+                                </div>
+                                </div>
+                                </div>
+                                <div class = "row">
+                                <div class ="col s4">
+                                <h6>Edwardsville, IL{{ breeder.location.city }}, {{ breeder.location.state }}<br />United States{{ breeder.location.country }}</h6>
+                                </div>
+                              <div class = "col s8 right-align">
+                                <p> Very clean, great dogs.</p>
+                              </div>
+                              </div>
+                            </div>
+                              <a class="btn-floating halfway-fab waves-effect waves-light yellow darken-1"><i class="material-icons">flag</i></a>
+                        </div>
                     </div>
-                    <div class="divider"></div>
-
+                    </a>
                 </div>
+                
+            </div>
                 
             <div class="row" style = "padding-top: 100px">
                 <div class = "col s6 right-align">
-                    <h6>Don't see the breeder your looking for?</h6>
+                    <h6>Don't see the breeder your'e looking for?</h6>
                 </div>
                 <div class = "col s6 left-align">
-                    <a href = "RateBreeder.html" class="waves-effect waves-light btn teal lighten-1" style="width: 200px">Add a Breeder</a>
+                    <a href = "AddBreeder.html" class="waves-effect waves-light btn teal darken-1" style="width: 200px">Add a Breeder</a>
                 </div>
             </div>
         </main>
@@ -93,9 +108,6 @@
 
         <!-- Controllers -->
 <!--    script src="js/controllers/MainController.js"></script>-->
-
-        <!-- Services -->
-        <script src="js/services/forecast.js"></script>
 
         <!-- JS Scripts -->
         <script src="js/scripts.js"></script>
