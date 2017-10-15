@@ -21,28 +21,34 @@ class SurveyController {
         this.surveySchema = JSON.parse(fs.readFileSync(schemaFile, 'utf8'));
     }
 
-    getSurvey(surveyId, reply) {
-        var surveyResult = this.orchestrator.getSurvey(surveyId);
+    async getSurvey(surveyId, reply) {
+        var surveyResult = await this.orchestrator.getSurvey(surveyId);
 
         if(surveyResult == null){
             reply("Not found").code(404);
         }
         else {
-            reply(JSON.stringify(surveyResult));
+            reply(surveyResult);
         }        
     }
     
-    // TODO: Make sure the breederId and userId exist in the system
-    createSurvey(surveyJson, reply) {
-        var surveyData = JSON.parse(surveyJson);
+    // Make sure the breederId and userId exist in the system
+    async createSurvey(surveyJson, reply) {
+        
+        var surveyData = surveyJson;
 
         // Validate that the referenced resources exist
-        var referencedBreeder = this.breederOrchestrator.getBreeder(surveyData.breederId);
-        var referencedUser = this.userOrchestrator.getUser(surveyData.userId);
-
-        if (referencedBreeder == null || referencedUser == null) {
+        var referencedBreeder = await this.breederOrchestrator.getBreeder(surveyData.breederId);
+        if(referencedBreeder == null) {
             reply("Bad request").code(400);
-            return;
+        }
+
+        // Not required in V0 - will be required once hooked to OAuth
+        if(surveyData.userId) {
+            var referencedUser = await this.userOrchestrator.getUser(surveyData.userId);
+            if(referencedUser == null) {
+                reply("Bad request").code(400);
+            }
         }
 
         var validationResult = this.validator.validate(surveyData, this.surveySchema);
@@ -52,18 +58,18 @@ class SurveyController {
             return;
         }
         
-        var surveyResult = this.orchestrator.createSurvey(surveyData);
+        var surveyResult = await this.orchestrator.createSurvey(surveyData);
 
         if(surveyResult == null) {
             // If generated ID was not unique, rather fail than overwrite data
             reply("Internal server error.").code(500);
         }
 
-        reply(JSON.stringify(surveyResult));
+        reply(surveyResult);
     }
 
-    updateSurvey(surveyId, surveyJson, reply) {
-        var surveyData = JSON.parse(surveyJson);
+    async updateSurvey(surveyId, surveyJson, reply) {
+        var surveyData = surveyJson;
 
         if(surveyData.id != null && surveyData.id != surveyId){
             reply("Bad request. Survey ID does not match route's survey ID.").code(400);
@@ -77,19 +83,24 @@ class SurveyController {
             return;
         }
 
-        var updateResult =  this.orchestrator.updateSurvey(surveyId, surveyData);
+        var updateResult =  await this.orchestrator.updateSurvey(surveyId, surveyData);
 
-        if(updateResult) {
-            reply().code(200);
+        if(updateResult != null) {
+            reply(updateResult);
         } 
         else {
             reply("Not found").code(404);
         }
     }
 
-    deleteSurvey(surveyId, reply) {
-        this.orchestrator.deleteSurvey(surveyId);
-        reply().code(200);
+    async deleteSurvey(surveyId, reply) {
+        var result = await this.orchestrator.deleteSurvey(surveyId);
+        if(result){
+            reply().code(200);
+        }
+        else {
+            reply("Not found").code(404);
+        }
     }
 
     setupRoutes(server) {
@@ -101,7 +112,15 @@ class SurveyController {
             path: baseRoute + '/{surveyId}',
             handler: function(request, reply){
                 var surveyId = encodeURIComponent(request.params.surveyId);
-                controller.getSurvey(surveyId, reply);
+                var promise = controller.getSurvey(surveyId, reply);
+                promise.then(
+                    function(){
+                        console.log("Request completed");
+                    }, 
+                    function(){
+                        console.log("Error occurred");
+                        reply().code(500);
+                    });
             }
         });
 
@@ -111,7 +130,15 @@ class SurveyController {
             path: baseRoute,
             handler: function(request, reply){
                 var surveyJson = request.payload;
-                controller.createSurvey(surveyJson, reply)
+                var promise = controller.createSurvey(surveyJson, reply);
+                promise.then(
+                    function(){
+                        console.log("Request completed");
+                    }, 
+                    function(){
+                        console.log("Error occurred");
+                        reply().code(500);
+                    });
             }
         });
 
@@ -122,7 +149,15 @@ class SurveyController {
             handler: function(request, reply){
                 var surveyId = encodeURIComponent(request.params.surveyId);
                 var surveyJson = request.payload;
-                controller.updateSurvey(surveyId, surveyJson, reply)
+                var promise = controller.updateSurvey(surveyId, surveyJson, reply);
+                promise.then(
+                    function(){
+                        console.log("Request completed");
+                    }, 
+                    function(){
+                        console.log("Error occurred");
+                        reply().code(500);
+                    });
             }
         });
 
@@ -132,7 +167,15 @@ class SurveyController {
             path: baseRoute + '/{surveyId}',
             handler: function(request, reply){
                 var surveyId = encodeURIComponent(request.params.surveyId);
-                controller.deleteSurvey(surveyId, reply);
+                var promise = controller.deleteSurvey(surveyId, reply);
+                promise.then(
+                    function(){
+                        console.log("Request completed");
+                    }, 
+                    function(){
+                        console.log("Error occurred");
+                        reply().code(500);
+                    });
             }
         });
     }

@@ -25,7 +25,13 @@
               "description": "Answer to the survey question",
               "id": "http://example.com/example.json/properties/questions/items/0/properties/answer", 
               "title": "The answer schema.", 
-              "type": "boolean"
+              "type": "string",
+              "enum": [
+                "yes",
+                "no",
+                "did not answer"
+              ],
+              "default": "did not answer"
             }, 
             "question": {
               "description": "The question of the survey.",
@@ -45,7 +51,7 @@
         }
       ], 
       "type": "array",
-      "minItems" : 5,
+      "minItems" : 0,
       "maxItems": 5
     }, 
     "userId": {
@@ -57,6 +63,6 @@
   }, 
   "type": "object",
   "required": [
-    "breederId", "questions", "userId"
+    "breederId", "questions"
   ]
 }

@@ -11,14 +11,11 @@ const server = new Hapi.Server();
 server.connection(
     { 
         port: 3000, 
-        host: 'localhost'/*, this might work?
+        host: 'localhost',
         routes: {
             cors: true
-        }*/
+        }
     });
-
-
-
 
 // TODO: Remove or make an intro page for the API
 server.route({
@@ -33,12 +30,13 @@ server.route({
 var setup = new Setup(server);
 
 // Start the server
-server.register({
-    register: Cors,
-    options: {
-        origins: ['http://127.0.0.1:63713']
-    }
-}, function(err){
+server.register([
+    {
+        register: Cors,
+        options: {
+            origins: ['http://127.0.0.1:54680']
+        }
+    }], function(err){
     server.start(function(err){
         if(err) throw err;
 
