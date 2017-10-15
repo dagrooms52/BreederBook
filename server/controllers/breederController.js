@@ -7,7 +7,6 @@ const Validator = require('jsonschema').Validator;
 const fs = require('fs');
 const path = require('path');
 const schemaFile = path.join(__dirname, 'jsonSchema/breeder.json');
-const instapromise = require('instapromise');
 
 class BreederController {
 
