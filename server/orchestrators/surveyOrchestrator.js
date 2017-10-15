@@ -20,6 +20,13 @@ class SurveyOrchestrator {
         return await SurveyModel.findOne({'id': surveyId});
     }
 
+    async getSurveysForBreeder(breederId, reply) {
+        var db = await Mongoose.createConnection(this.dbConnectionUri);
+
+        var SurveyModel = db.model('Survey', SurveySchema);
+        return await SurveyModel.find({'breederId': breederId});
+    }
+
     // Returns: Survey (null if failed)
     async createSurvey(surveyData) {
         var survey = {

@@ -31,6 +31,12 @@ class SurveyController {
             reply(surveyResult);
         }        
     }
+
+    async getSurveysForBreeder(breederId, reply) {
+        var surveys = await this.orchestrator.getSurveysForBreeder(breederId);
+
+        reply(surveys);
+    }
     
     // Make sure the breederId and userId exist in the system
     async createSurvey(surveyJson, reply) {
@@ -113,6 +119,25 @@ class SurveyController {
             handler: function(request, reply){
                 var surveyId = encodeURIComponent(request.params.surveyId);
                 var promise = controller.getSurvey(surveyId, reply);
+                promise.then(
+                    function(){
+                        console.log("Request completed");
+                    }, 
+                    function(){
+                        console.log("Error occurred");
+                        reply().code(500);
+                    });
+            }
+        });
+
+        // GET /surveys?$breederId="example"
+        server.route({
+            method: 'GET',
+            path: baseRoute,
+            handler: function(request, reply) {
+                var params = request.query;
+                var breederId = params['breederId'];
+                var promise = controller.getSurveysForBreeder(breederId, reply);
                 promise.then(
                     function(){
                         console.log("Request completed");
