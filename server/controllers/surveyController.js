@@ -38,13 +38,17 @@ class SurveyController {
         var surveyData = surveyJson;
 
         // Validate that the referenced resources exist
-        var referencedBreederPromise = this.breederOrchestrator.getBreeder(surveyData.breederId);
-        var referencedUserPromise = this.userOrchestrator.getUser(surveyData.userId);
-        var results = await Promise.all([referencedBreederPromise, referencedUserPromise]);
-
-        if (results[0] == null || results[1] == null) {
+        var referencedBreeder = await this.breederOrchestrator.getBreeder(surveyData.breederId);
+        if(referencedBreeder == null) {
             reply("Bad request").code(400);
-            return;
+        }
+
+        // Not required in V0 - will be required once hooked to OAuth
+        if(surveyData.userId) {
+            var referencedUser = await this.userOrchestrator.getUser(surveyData.userId);
+            if(referencedUser == null) {
+                reply("Bad request").code(400);
+            }
         }
 
         var validationResult = this.validator.validate(surveyData, this.surveySchema);

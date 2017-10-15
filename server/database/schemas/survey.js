@@ -17,7 +17,15 @@ const SurveySchema = new Schema({
                 "Did you discover any health problems after receiving the dog?"
             ]
         },
-        answer: String
+        answer: { 
+            type: String,
+            enum: [
+                "yes",
+                "no",
+                "did not answer"
+            ],
+            default: "did not answer"
+        }
     }]
 });
 
