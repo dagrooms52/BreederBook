@@ -8,17 +8,15 @@ const Cors = require('hapi-cors');
 
 // Start preparing a server
 const server = new Hapi.Server();
-server.connection(
-    { 
-        port: process.env.PORT || 3000
-    });
+server.connection({ 
+    port: process.env.PORT || 3000
+});
 
-// TODO: Remove or make an intro page for the API
 server.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-        reply('Hello, world!');
+        reply('BreederBook Home Page');
     }
 });
 
@@ -32,7 +30,6 @@ server.register([
     }], function(err){
     server.start(function(err){
         if(err) throw err;
-
-		console.log(server.info.uri);
-	});
+	console.log(server.info.uri);
+    });
 });
